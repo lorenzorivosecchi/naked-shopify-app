@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import useAuthContext from "src/utils/hooks/useAuthContext";
 
 type FormData = {
   email: string;
@@ -8,10 +9,21 @@ type FormData = {
 const LoginForm: React.FC<{}> = () => {
   const { register, handleSubmit, errors } = useForm<FormData>();
 
-  const onSubmit = (data) => console.log(data);
+  const { login } = useAuthContext();
+
+  /** Sends login mutation and handles errors */
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      login({
+        variables: data,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
       <div>
         <label>Email</label>
         <input name="email" ref={register({ required: true })} />
