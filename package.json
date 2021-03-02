@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "generate": "apollo client:codegen --target typescript",
+    "generate": "apollo client:codegen --target typescript --localSchemaFile=schema.json",
+    "schema": "apollo client:download-schema",
     "test": "jest"
   },
   "dependencies": {
