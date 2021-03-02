@@ -5,12 +5,10 @@ type FormData = {
   password: string;
 };
 
-type Props = {
-  onSubmit: (data: FormData) => void;
-};
-
-const LoginForm: React.FC<Props> = ({ onSubmit }) => {
+const LoginForm: React.FC<{}> = () => {
   const { register, handleSubmit, errors } = useForm<FormData>();
+
+  const onSubmit = (data) => console.log(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -30,3 +28,4 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
 };
 
 export default LoginForm;
+å;
