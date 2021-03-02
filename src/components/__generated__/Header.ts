@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: Header2
+// GraphQL query operation: Header
 // ====================================================
 
-export interface Header2_shop {
+export interface Header_shop {
   __typename: "Shop";
   /**
    * The shop's name.
@@ -15,9 +15,9 @@ export interface Header2_shop {
   name: string;
 }
 
-export interface Header2 {
+export interface Header {
   /**
    * Returns a Shop resource corresponding to access token used in request.
    */
-  shop: Header2_shop;
+  shop: Header_shop;
 }
