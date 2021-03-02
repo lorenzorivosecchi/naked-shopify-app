@@ -48,6 +48,7 @@ const LoginForm: React.FC<{}> = () => {
           <span role="alert">Please enter your password</span>
         )}
       </div>
+      <input type="submit" />
     </form>
   );
 };

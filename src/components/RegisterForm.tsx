@@ -72,6 +72,7 @@ const RegisterForm: React.FC<{}> = () => {
           <span role="alert">Passwords don't match</span>
         )}
       </div>
+      <input type="submit" />
     </form>
   );
 };
