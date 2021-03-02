@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const HEADER_QUERY = gql`
-  query header {
+  query Header2 {
     shop {
       name
     }
