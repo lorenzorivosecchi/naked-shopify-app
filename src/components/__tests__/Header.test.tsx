@@ -1,11 +1,8 @@
 import Header from "../Header";
-import { findByText, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import AutoMockedProvider from "../../utils/testing/AutoMockedProvider";
 
 describe("Header", () => {
-  it("is truthy", () => {
-    expect(Header).toBeTruthy();
-  });
   it("displays the shop name", async () => {
     const mocks = {
       Shop: {
