@@ -16,5 +16,6 @@ module.exports = {
         "X-Shopify-Access-Token": shopifyApiPassword,
       },
     },
+    excludes: ["./src/pages/**/*"],
   },
 };
