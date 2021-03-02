@@ -10,14 +10,14 @@
 export interface ShopName_shop {
   __typename: "Shop";
   /**
-   * The shop's name.
+   * The shop’s name.
    */
   name: string;
 }
 
 export interface ShopName {
   /**
-   * Returns a Shop resource corresponding to access token used in request.
+   * The shop associated with the storefront access token.
    */
   shop: ShopName_shop;
 }
