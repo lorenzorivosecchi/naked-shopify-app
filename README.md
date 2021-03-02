@@ -20,7 +20,7 @@ Then you should create a file called `.env.local` with the following content:
 
 ```shell
 NEXT_APP_SHOPIFY_STORE="your store name"
-NEXT_APP_SHOPIFY_API_PASSWORD="your api password"
+NEXT_APP_SHOPIFY_STOREFRONT_ACCESS_TOKEN="your api password"
 ```
 
 > Note: this file will be excluded from version control.
