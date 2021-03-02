@@ -1,7 +1,8 @@
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
+import { ShopName } from "./__generated__/ShopName";
 
-const HEADER_QUERY = gql`
-  query Header {
+const SHOP_NAME = gql`
+  query ShopName {
     shop {
       name
     }
@@ -9,7 +10,14 @@ const HEADER_QUERY = gql`
 `;
 
 const Header: React.FC<{}> = () => {
-  return <header></header>;
+  const { data, loading } = useQuery<ShopName>(SHOP_NAME);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  const shopName = data?.shop?.name;
+
+  return <header>{shopName && <h1>{shopName}</h1>}</header>;
 };
 
 export default Header;
