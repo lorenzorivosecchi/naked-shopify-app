@@ -29,31 +29,48 @@ const RegisterForm: React.FC<{}> = () => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <label>Email</label>
-        <input name="email" ref={register({ required: true })} />
-        {errors.email?.type === "required" && "Please enter your email"}
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          ref={register({ required: true })}
+          aria-invalid={errors.email ? "true" : "false"}
+        />
+        {errors.email?.type === "required" && (
+          <span role="alert">Please enter your email</span>
+        )}
       </div>
       <div>
-        <label>Password</label>
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           name="password"
           type="password"
           ref={register({ required: true })}
+          aria-invalid={errors.password ? "true" : "false"}
         />
-        {errors.email?.type === "required" && "Please enter your password"}
+        {errors.email?.type === "required" && (
+          <span role="alert">Please enter your password</span>
+        )}
       </div>
       <div>
-        <label>Confirm password</label>
+        <label htmlFor="passwordConfirmation">Confirm password</label>
         <input
+          id="passwordConfirmation"
           name="passwordConfirmation"
           type="password"
           ref={register({
             required: true,
             validate: (value) => value === getValues("password"),
           })}
+          aria-invalid={errors.passwordConfirmation ? "true" : "false"}
         />
-        {errors.email?.type === "required" && "Please confirm your password"}
-        {errors.email?.type === "validate" && "Passwords don't match"}
+        {errors.email?.type === "required" && (
+          <span role="alert">Please confirm your password</span>
+        )}
+        {errors.email?.type === "validate" && (
+          <span role="alert">Passwords don't match</span>
+        )}
       </div>
     </form>
   );

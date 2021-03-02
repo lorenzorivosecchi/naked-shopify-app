@@ -25,15 +25,28 @@ const LoginForm: React.FC<{}> = () => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <label>Email</label>
-        <input name="email" ref={register({ required: true })} />
-        {errors.email?.type === "required" && "Please enter your email"}
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          ref={register({ required: true })}
+          aria-invalid={errors.email ? "true" : "false"}
+        />
+        {errors.email?.type === "required" && (
+          <span role="alert">Please enter your email</span>
+        )}
       </div>
       <div>
-        <label>Password</label>
-        <input name="password" ref={register({ required: true })} />
-        {errors.email && <span>{errors.email}</span>}
-        {errors.email?.type === "required" && "Please enter your password"}
+        <label htmlFor="password">Password</label>
+        <input
+          id="password"
+          name="password"
+          ref={register({ required: true })}
+          aria-invalid={errors.password ? "true" : "false"}
+        />
+        {errors.password?.type === "required" && (
+          <span role="alert">Please enter your password</span>
+        )}
       </div>
     </form>
   );
