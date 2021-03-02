@@ -1,0 +1,6 @@
+{
+  // Specify that we are using the next/babel preset
+  // so that jest will be able to pick up the correct configuration
+  // to compile the code.
+  "presets": ["next/babel"]
+}
