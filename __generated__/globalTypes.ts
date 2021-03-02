@@ -28,26 +28,6 @@ export enum CustomerErrorCode {
   UNIDENTIFIED_CUSTOMER = "UNIDENTIFIED_CUSTOMER",
 }
 
-/**
- * Specifies the input fields required to create a customer access token.
- */
-export interface CustomerAccessTokenCreateInput {
-  email: string;
-  password: string;
-}
-
-/**
- * Specifies the fields required to create a new customer.
- */
-export interface CustomerCreateInput {
-  firstName?: string | null;
-  lastName?: string | null;
-  email: string;
-  phone?: string | null;
-  password: string;
-  acceptsMarketing?: boolean | null;
-}
-
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
