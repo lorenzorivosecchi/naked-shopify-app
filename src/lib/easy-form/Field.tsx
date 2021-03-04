@@ -32,10 +32,4 @@ const Field = React.forwardRef<any, FieldProps>((props, ref) => {
   );
 });
 
-const defaultProps: Pick<FieldProps, "render"> = {
-  render: (props) => <input {...props} />,
-};
-
-Field.defaultProps = defaultProps;
-
 export default Field;
