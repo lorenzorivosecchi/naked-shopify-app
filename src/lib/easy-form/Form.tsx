@@ -1,5 +1,14 @@
-import { FieldValues, useForm } from "react-hook-form";
-import { FormProps } from "src/components/Form";
+import {
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  UseFormMethods,
+} from "react-hook-form";
+
+interface FormProps<TFormValues> {
+  onSubmit: SubmitHandler<TFormValues>;
+  children: (methods: UseFormMethods<TFormValues>) => React.ReactNode;
+}
 
 /**
  * @see https://react-hook-form.com/ts#UseFormMethods
