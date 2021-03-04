@@ -1,80 +1,52 @@
-import { useForm } from "react-hook-form";
-import useAuthContext from "src/utils/hooks/useAuthContext";
+import React from "react";
+import { Form, Input, Error } from "src/lib/easy-form";
 
-type FormData = {
+interface FormValues {
   email: string;
   password: string;
   passwordConfirmation: string;
-};
+}
 
-const RegisterForm: React.FC<{}> = () => {
-  const { register, handleSubmit, errors, getValues } = useForm<FormData>();
-
-  const { register: createAccount } = useAuthContext();
-
-  /** Sends register mutation and handles errors */
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      createAccount({
-        variables: {
-          email: data.email,
-          password: data.password,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  });
+export default function RegisterForm() {
+  const onSubmit = () => alert("Welcome");
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          ref={register({ required: true })}
-          aria-invalid={errors.email ? "true" : "false"}
-        />
-        {errors.email?.type === "required" && (
-          <span role="alert">Please enter your email</span>
-        )}
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          ref={register({ required: true })}
-          aria-invalid={errors.password ? "true" : "false"}
-        />
-        {errors.email?.type === "required" && (
-          <span role="alert">Please enter your password</span>
-        )}
-      </div>
-      <div>
-        <label htmlFor="passwordConfirmation">Confirm password</label>
-        <input
-          id="passwordConfirmation"
-          name="passwordConfirmation"
-          type="password"
-          ref={register({
-            required: true,
-            validate: (value) => value === getValues("password"),
-          })}
-          aria-invalid={errors.passwordConfirmation ? "true" : "false"}
-        />
-        {errors.email?.type === "required" && (
-          <span role="alert">Please confirm your password</span>
-        )}
-        {errors.email?.type === "validate" && (
-          <span role="alert">Passwords don't match</span>
-        )}
-      </div>
-      <input type="submit" />
-    </form>
+    <Form<FormValues> onSubmit={onSubmit}>
+      {({ register, getValues, formState: { errors } }) => (
+        <>
+          <Input
+            name="email"
+            label="Email"
+            ref={register({ required: true })}
+          />
+          {errors.email?.type === "required" && (
+            <Error>Please provide an email</Error>
+          )}
+          <Input
+            name="password"
+            label="Password"
+            ref={register({ required: true })}
+          />
+          {errors.password?.type === "required" && (
+            <Error>Please provide a password</Error>
+          )}
+          <Input
+            name="passwordConfirmation"
+            label="Confirm Password"
+            ref={register({
+              required: true,
+              validate: (value) => value === getValues("password"),
+            })}
+          />
+          {errors.passwordConfirmation?.type === "required" && (
+            <Error>Please confirm your password</Error>
+          )}
+          {errors.passwordConfirmation?.type === "validate" && (
+            <Error>Passwords don't match</Error>
+          )}
+          <input type="submit" />
+        </>
+      )}
+    </Form>
   );
-};
-
-export default RegisterForm;
+}
