@@ -1,5 +1,4 @@
-import Field from "../Field";
-import Form from "../Form";
+import { Form, Input, Select } from "..";
 
 interface FormValues {
   firstName: "firstName";
@@ -13,20 +12,24 @@ const App = () => {
     <Form<FormValues> onSubmit={onSubmit}>
       {({ register }) => (
         <>
-          <Field
+          <Input
             name="firstName"
             label="First Name"
             ref={register({ required: true })}
-            render={(props) => <input {...props} />}
           />
-          <Field
+          <Input
             name="lastName"
             label="Last Name"
             ref={register({
               required: true,
             })}
-            render={(props) => <input {...props} />}
           />
+          <Select name="gender" label="Gender" ref={register}>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </Select>
+          <input type="submit" />
         </>
       )}
     </Form>
