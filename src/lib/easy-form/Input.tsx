@@ -7,7 +7,9 @@ interface InputProps {
 }
 
 const Input = forwardRef<any, InputProps>((props, ref) => {
-  return <Field {...props} render={(props) => <input {...props} />} />;
+  return (
+    <Field ref={ref} {...props} render={(props) => <input {...props} />} />
+  );
 });
 
 export default Input;

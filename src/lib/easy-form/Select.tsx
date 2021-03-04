@@ -8,11 +8,8 @@ interface SelectProps {
 }
 
 const Select = forwardRef<any, SelectProps>((props, ref) => {
-  const { children, ...rest } = props;
   return (
-    <Field {...rest} render={(props) => <select {...props} />}>
-      {children}
-    </Field>
+    <Field ref={ref} {...props} render={(props) => <select {...props} />} />
   );
 });
 

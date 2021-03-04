@@ -1,8 +1,9 @@
 import { Form, Input, Select, Error } from "..";
 
 interface FormValues {
-  firstName: "firstName";
-  lastName: "lastName";
+  firstName: string;
+  lastName: string;
+  gender: string;
 }
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
           {errors.lastName?.type === "required" && (
             <Error>Please provide your last name</Error>
           )}
-          <Select name="gender" label="Gender" ref={register}>
+          <Select name="gender" label="Gender">
             <option>Male</option>
             <option>Female</option>
             <option>Other</option>
