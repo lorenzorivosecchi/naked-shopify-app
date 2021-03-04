@@ -11,6 +11,9 @@ export type FormProps<TFormValues> = {
   children: (methods: UseFormMethods<TFormValues>) => React.ReactNode;
 };
 
+/**
+ * @see https://react-hook-form.com/ts#UseFormMethods
+ */
 const Form = <TFormValues extends FieldValues = FieldValues>({
   onSubmit,
   children,
@@ -30,9 +33,6 @@ export type InputProps = React.DetailedHTMLProps<
   HTMLInputElement
 >;
 
-/**
- *  @see https://react-hook-form.com/ts#UseFormMethods
- */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => <input ref={ref} {...props} />
 );
@@ -42,7 +42,7 @@ export type Option = {
   value: string | number | string[];
 };
 
-type SelectProps = React.DetailedHTMLProps<
+export type SelectProps = React.DetailedHTMLProps<
   React.SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
 > & { options: Option[] };
