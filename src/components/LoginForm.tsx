@@ -1,56 +1,29 @@
-import { useForm } from "react-hook-form";
-import useAuthContext from "src/utils/hooks/useAuthContext";
+import React from "react";
+import Form, { Input, Error } from "./Form";
 
-type FormData = {
+interface FormValues {
   email: string;
   password: string;
-};
+}
 
-const LoginForm: React.FC<{}> = () => {
-  const { register, handleSubmit, errors } = useForm<FormData>();
-
-  const { login } = useAuthContext();
-
-  /** Sends login mutation and handles errors */
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      login({
-        variables: data,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  });
+export default function NewLoginForm() {
+  const onSubmit = (data: FormValues) => console.log(data);
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          ref={register({ required: true })}
-          aria-invalid={errors.email ? "true" : "false"}
-        />
-        {errors.email?.type === "required" && (
-          <span role="alert">Please enter your email</span>
-        )}
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          ref={register({ required: true })}
-          aria-invalid={errors.password ? "true" : "false"}
-        />
-        {errors.password?.type === "required" && (
-          <span role="alert">Please enter your password</span>
-        )}
-      </div>
-      <input type="submit" />
-    </form>
+    <Form<FormValues> onSubmit={onSubmit}>
+      {({ register, formState: { errors } }) => (
+        <>
+          <Input name="email" ref={register({ required: true })} />
+          {errors.email?.type === "required" && (
+            <Error>Please provide your email</Error>
+          )}
+          <Input name="password" ref={register({ required: true })} />
+          {errors.password?.type === "required" && (
+            <Error>Please provide your password</Error>
+          )}
+          <Input type="submit" />
+        </>
+      )}
+    </Form>
   );
-};
-
-export default LoginForm;
+}
