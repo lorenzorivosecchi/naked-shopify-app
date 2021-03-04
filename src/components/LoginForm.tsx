@@ -21,11 +21,7 @@ export default function LoginForm() {
           {errors.email?.type === "required" && (
             <Error>Please provide your email</Error>
           )}
-          <Input
-            name="password"
-            label="Password"
-            ref={register({ required: true })}
-          />
+          <Input name="password" ref={register({ required: true })} />
           {errors.password?.type === "required" && (
             <Error>Please provide your password</Error>
           )}

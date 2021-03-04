@@ -11,7 +11,7 @@ interface FieldInjectedProps {
 }
 
 interface FieldProps {
-  label: string;
+  label?: string;
   name: string;
   render: (props: FieldInjectedProps) => JSX.Element;
   children?: ReactNode;
@@ -21,7 +21,7 @@ const Field = React.forwardRef<any, FieldProps>((props, ref) => {
   const { name, label, render, children } = props;
   return (
     <>
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name}>{label || name}</label>
       {render({
         id: name,
         name,

@@ -3,7 +3,7 @@ import Field from "./Field";
 
 interface InputProps {
   name: string;
-  label: string;
+  label?: string;
 }
 
 const Input = forwardRef<any, InputProps>((props, ref) => {

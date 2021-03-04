@@ -3,7 +3,7 @@ import Field from "./Field";
 
 interface SelectProps {
   name: string;
-  label: string;
+  label?: string;
   children: ReactNode;
 }
 
