@@ -1,18 +1,20 @@
+import React from "react";
 import Form from "./Form";
+import Input from "./Form/Input";
 
-type FormValues = {
+interface FormValues {
   email: string;
   password: string;
-};
+}
 
-const NewLoginForm: React.FC<{}> = (props) => {
-  const onSubmit = (data) => console.log(data);
+export default function NewLoginForm() {
+  const onSubmit = (data: FormValues) => console.log(data);
+
   return (
-    <Form<FormValues>> onSubmit={onSubmit}>
-      <Form.Input name="email" />
-      <Form.Input name="password" />
+    <Form onSubmit={onSubmit}>
+      <Input name="email" required={true} />
+      <Input name="password" required={true} />
+      <Input type="submit" value="Submit" />
     </Form>
   );
-};
-
-export default NewLoginForm;
+}
