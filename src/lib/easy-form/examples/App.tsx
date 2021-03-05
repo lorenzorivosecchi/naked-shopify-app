@@ -36,7 +36,7 @@ const App = () => {
             <option>Female</option>
             <option>Other</option>
           </Select>
-          <input type="submit" />
+          <input type="submit" value="Update" />
         </>
       )}
     </Form>
