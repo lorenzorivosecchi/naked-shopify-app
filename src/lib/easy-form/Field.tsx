@@ -18,7 +18,7 @@ interface FieldProps {
 }
 
 const Field = (props: FieldProps, ref: Ref<any>) => {
-  const { name, label, render, children } = props;
+  const { name, label, render, children, ...rest } = props;
   return (
     <>
       <label htmlFor={name}>{label || name}</label>
@@ -27,6 +27,7 @@ const Field = (props: FieldProps, ref: Ref<any>) => {
         name,
         children,
         ref,
+        ...rest,
       })}
     </>
   );
