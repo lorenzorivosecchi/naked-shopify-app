@@ -34,4 +34,17 @@ describe("App", () => {
     const submit = getByRole("button", { name: /update/i });
     expect(submit).toBeInTheDocument();
   });
+
+  it("displays validation errors", async () => {
+    const { getAllByRole, getByRole } = render(<App />);
+
+    const submit = getByRole("button", { name: /update/i });
+
+    userEvent.click(submit);
+
+    await waitFor(() => {
+      const errors = getAllByRole("alert");
+      expect(errors.length).toBe(2);
+    });
+  });
 });
