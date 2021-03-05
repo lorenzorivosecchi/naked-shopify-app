@@ -1,5 +1,12 @@
-import EasyForm from "src/lib/easy-form/examples/App";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  return <EasyForm />;
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("/account/login");
+  }, []);
+
+  return null;
 }
