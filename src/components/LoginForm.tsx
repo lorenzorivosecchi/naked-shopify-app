@@ -24,7 +24,11 @@ const LoginForm: React.FC<Props> = ({ onSubmit }) => {
           {errors.email?.type === "required" && (
             <Error>Please provide your email</Error>
           )}
-          <Input name="password" ref={register({ required: true })} />
+          <Input
+            name="password"
+            type="password"
+            ref={register({ required: true })}
+          />
           {errors.password?.type === "required" && (
             <Error>Please provide your password</Error>
           )}

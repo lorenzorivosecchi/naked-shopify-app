@@ -29,6 +29,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
           <Input
             name="password"
             label="Password"
+            type="password"
             ref={register({ required: true })}
           />
           {errors.password?.type === "required" && (
@@ -37,6 +38,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
           <Input
             name="passwordConfirmation"
             label="Confirm Password"
+            type="password"
             ref={register({
               required: true,
               validate: (value) => value === getValues("password"),
