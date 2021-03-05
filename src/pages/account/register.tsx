@@ -23,7 +23,7 @@ const Register: NextPage<{}> = () => {
     <>
       <h1>Register</h1>
       <RegisterForm onSubmit={onSubmit} />
-      <Link href="/account/register">
+      <Link href="/account/login">
         <a>I already have an account</a>
       </Link>
     </>
