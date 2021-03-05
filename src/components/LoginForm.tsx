@@ -1,7 +1,6 @@
 import React from "react";
 import { SubmitHandler } from "react-hook-form";
-import { Form, Input, Error } from "src/lib/easy-form";
-import Submit from "src/lib/easy-form/Submit";
+import { Form, Input, Error, Submit } from "src/lib/easy-form";
 
 export interface LoginFormValues {
   email: string;
