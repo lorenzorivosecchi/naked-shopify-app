@@ -3,18 +3,18 @@ import { SubmitHandler } from "react-hook-form";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
 
-interface FormValues {
+export interface LoginFormValues {
   email: string;
   password: string;
 }
 
 interface Props {
-  onSubmit: SubmitHandler<FormValues>;
+  onSubmit: SubmitHandler<LoginFormValues>;
 }
 
 const LoginForm: React.FC<Props> = ({ onSubmit }) => {
   return (
-    <Form<FormValues> label="Login" onSubmit={onSubmit}>
+    <Form<LoginFormValues> label="Login" onSubmit={onSubmit}>
       {({ register, formState: { errors } }) => (
         <>
           <Input
