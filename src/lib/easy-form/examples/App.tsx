@@ -10,7 +10,7 @@ const App = () => {
   const onSubmit = (data) => console.log(data);
 
   return (
-    <Form<FormValues> onSubmit={onSubmit}>
+    <Form<FormValues> label="Profile" onSubmit={onSubmit}>
       {({ register, formState: { errors } }) => (
         <>
           <Input

@@ -10,7 +10,7 @@ export default function LoginForm() {
   const onSubmit = () => console.log("Welcome");
 
   return (
-    <Form<FormValues> onSubmit={onSubmit}>
+    <Form<FormValues> label="Login" onSubmit={onSubmit}>
       {({ register, formState: { errors } }) => (
         <>
           <Input

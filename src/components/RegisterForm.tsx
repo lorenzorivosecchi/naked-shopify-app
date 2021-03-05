@@ -11,7 +11,7 @@ export default function RegisterForm() {
   const onSubmit = () => alert("Welcome");
 
   return (
-    <Form<FormValues> onSubmit={onSubmit}>
+    <Form<FormValues> label="Create account" onSubmit={onSubmit}>
       {({ register, getValues, formState: { errors } }) => (
         <>
           <Input

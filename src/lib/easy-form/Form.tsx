@@ -7,6 +7,7 @@ import {
 
 interface FormProps<TFormValues> {
   onSubmit: SubmitHandler<TFormValues>;
+  label: string;
   children: (methods: UseFormMethods<TFormValues>) => React.ReactNode;
 }
 
@@ -16,10 +17,14 @@ interface FormProps<TFormValues> {
 const Form = <TFormValues extends FieldValues = FieldValues>({
   onSubmit,
   children,
+  label,
 }: FormProps<TFormValues>) => {
   const methods = useForm<TFormValues>();
   return (
-    <form onSubmit={methods.handleSubmit(onSubmit, console.log)}>
+    <form
+      aria-label={label}
+      onSubmit={methods.handleSubmit(onSubmit, console.log)}
+    >
       {children(methods)}
     </form>
   );
