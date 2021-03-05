@@ -19,8 +19,8 @@ Generate API credentials for a private app, and take note of the API password.
 Then you should create a file called `.env.local` with the following content:
 
 ```shell
-NEXT_APP_SHOPIFY_STORE="your store name"
-NEXT_APP_SHOPIFY_STOREFRONT_ACCESS_TOKEN="your api password"
+NEXT_PUBLIC_SHOPIFY_STORE="your store name"
+NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN="your api password"
 ```
 
 > Note: this file will be excluded from version control.

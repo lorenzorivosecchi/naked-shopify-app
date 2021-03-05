@@ -4,8 +4,9 @@ dotenv.config({
   path: "./.env.local",
 });
 
-const store = process.env.NEXT_APP_SHOPIFY_STORE;
-const publicAccessToken = process.env.NEXT_APP_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+const store = process.env.NEXT_PUBLIC_SHOPIFY_STORE;
+const publicAccessToken =
+  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
 module.exports = {
   client: {
