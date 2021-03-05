@@ -1,7 +1,7 @@
-import { forwardRef, ReactNode, Ref } from "react";
+import { forwardRef, ReactNode, Ref, SelectHTMLAttributes } from "react";
 import Field from "./Field";
 
-interface SelectProps {
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   name: string;
   label?: string;
   children: ReactNode;

@@ -1,7 +1,7 @@
-import { forwardRef, Ref } from "react";
+import { forwardRef, InputHTMLAttributes, Ref } from "react";
 import Field from "./Field";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
 }
