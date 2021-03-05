@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Input, Error } from "src/lib/easy-form";
+import Submit from "src/lib/easy-form/Submit";
 
 interface FormValues {
   email: string;
@@ -44,7 +45,7 @@ export default function RegisterForm() {
           {errors.passwordConfirmation?.type === "validate" && (
             <Error>Passwords don't match</Error>
           )}
-          <input type="submit" />
+          <Submit />
         </>
       )}
     </Form>

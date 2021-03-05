@@ -1,4 +1,5 @@
 import { Form, Input, Select, Error } from "..";
+import Submit from "../Submit";
 
 interface FormValues {
   firstName: string;
@@ -36,7 +37,7 @@ const App = () => {
             <option>Female</option>
             <option>Other</option>
           </Select>
-          <input type="submit" value="Update" />
+          <Submit>Update</Submit>
         </>
       )}
     </Form>
