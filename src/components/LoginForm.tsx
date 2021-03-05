@@ -1,4 +1,5 @@
 import React from "react";
+import { SubmitHandler } from "react-hook-form";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
 
@@ -7,9 +8,11 @@ interface FormValues {
   password: string;
 }
 
-export default function LoginForm() {
-  const onSubmit = () => console.log("Welcome");
+interface Props {
+  onSubmit: SubmitHandler<FormValues>;
+}
 
+const LoginForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Form<FormValues> label="Login" onSubmit={onSubmit}>
       {({ register, formState: { errors } }) => (
@@ -31,4 +34,6 @@ export default function LoginForm() {
       )}
     </Form>
   );
-}
+};
+
+export default LoginForm;

@@ -1,4 +1,5 @@
 import React from "react";
+import { SubmitHandler } from "react-hook-form";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
 
@@ -8,9 +9,11 @@ interface FormValues {
   passwordConfirmation: string;
 }
 
-export default function RegisterForm() {
-  const onSubmit = () => alert("Welcome");
+interface Props {
+  onSubmit: SubmitHandler<FormValues>;
+}
 
+const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Form<FormValues> label="Create account" onSubmit={onSubmit}>
       {({ register, getValues, formState: { errors } }) => (
@@ -50,4 +53,6 @@ export default function RegisterForm() {
       )}
     </Form>
   );
-}
+};
+
+export default RegisterForm;
