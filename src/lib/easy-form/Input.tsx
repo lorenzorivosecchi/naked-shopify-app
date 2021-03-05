@@ -1,4 +1,4 @@
-import { forwardRef, ReactChildren, ReactNode } from "react";
+import { forwardRef, Ref } from "react";
 import Field from "./Field";
 
 interface InputProps {
@@ -6,10 +6,10 @@ interface InputProps {
   label?: string;
 }
 
-const Input = forwardRef<any, InputProps>((props, ref) => {
+const Input = (props: InputProps, ref: Ref<HTMLInputElement>) => {
   return (
     <Field ref={ref} {...props} render={(props) => <input {...props} />} />
   );
-});
+};
 
-export default Input;
+export default forwardRef(Input);

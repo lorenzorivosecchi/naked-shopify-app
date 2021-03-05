@@ -1,4 +1,4 @@
-import { forwardRef, ReactChildren, ReactNode } from "react";
+import { forwardRef, ReactNode, Ref } from "react";
 import Field from "./Field";
 
 interface SelectProps {
@@ -7,10 +7,10 @@ interface SelectProps {
   children: ReactNode;
 }
 
-const Select = forwardRef<any, SelectProps>((props, ref) => {
+const Select = (props: SelectProps, ref: Ref<HTMLSelectElement>) => {
   return (
     <Field ref={ref} {...props} render={(props) => <select {...props} />} />
   );
-});
+};
 
-export default Select;
+export default forwardRef(Select);

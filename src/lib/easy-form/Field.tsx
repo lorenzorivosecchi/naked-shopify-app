@@ -1,6 +1,6 @@
 // https://blog.andrewbran.ch/polymorphic-react-components/#an-alternative-approach
 
-import React, { ForwardedRef } from "react";
+import React, { ForwardedRef, forwardRef, Ref } from "react";
 import { ReactNode } from "react";
 
 interface FieldInjectedProps {
@@ -17,7 +17,7 @@ interface FieldProps {
   children?: ReactNode;
 }
 
-const Field = React.forwardRef<any, FieldProps>((props, ref) => {
+const Field = (props: FieldProps, ref: Ref<any>) => {
   const { name, label, render, children } = props;
   return (
     <>
@@ -30,6 +30,6 @@ const Field = React.forwardRef<any, FieldProps>((props, ref) => {
       })}
     </>
   );
-});
+};
 
-export default Field;
+export default forwardRef(Field);
