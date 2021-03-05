@@ -5,8 +5,16 @@ describe("App", () => {
   it("renders a form", () => {
     const { getByLabelText } = render(<App />);
 
-    const form = getByLabelText(/Profile/i);
-
+    const form = getByLabelText(/profile/i);
     expect(form).toBeInTheDocument();
+
+    const firstName = getByLabelText(/first name/i);
+    expect(firstName).toBeInTheDocument();
+
+    const lastName = getByLabelText(/last name/i);
+    expect(lastName).toBeInTheDocument();
+
+    const submit = getByLabelText(/submit/);
+    expect(lastName).toBeInTheDocument();
   });
 });
