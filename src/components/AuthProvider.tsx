@@ -69,7 +69,7 @@ const onAccessTokenCreated = (
   result: Login_customerAccessTokenCreate | Register_customerAccessTokenCreate
 ) => {
   const { accessToken } = result.customerAccessToken;
-  localStorage.set("token", accessToken);
+  localStorage.setItem("token", accessToken);
 };
 
 /** Removes access token from localStorage */
