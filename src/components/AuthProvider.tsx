@@ -1,13 +1,15 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { ApolloCache, gql, useLazyQuery, useMutation } from "@apollo/client";
 import { ReactNode, useEffect, useState } from "react";
+import {
+  clearCredentials,
+  getStoredCredentials,
+  storeCredentials,
+} from "src/utils/common";
 import { AuthContext } from "src/utils/context/auth";
 import { CustomerName } from "./__generated__/CustomerName";
-import { Login, Login_customerAccessTokenCreate } from "./__generated__/Login";
+import { Login } from "./__generated__/Login";
 import { Logout } from "./__generated__/Logout";
-import {
-  Register,
-  Register_customerAccessTokenCreate,
-} from "./__generated__/Register";
+import { Register } from "./__generated__/Register";
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -68,80 +70,92 @@ interface Props {
   children: ReactNode;
 }
 
+/**
+ * Provides authentication state and mutations.
+ */
 const AuthProvider: React.FC<Props> = ({ children }) => {
-  // Keep track of old token and its expiration date.
-  const [oldToken, setOldToken] = useState<string>();
-  const [oldTokenHasExpired, setOldTokenHasExpired] = useState<boolean>();
+  const [accessToken, setAccessToken] = useState<string | null>();
+
+  const [
+    fetchCustomerNameQuery,
+    { data: customerNameQueryData },
+  ] = useLazyQuery<CustomerName>(CUSTOMER_NAME);
 
   // Checks inside localStorage for token and expiration date.
   useEffect(() => {
-    const token = localStorage.getItem("CUSTOMER_TOKEN");
-    const tokenExpiresAt = localStorage.getItem("CUSTOMER_TOKEN_EXPIRES_AT");
+    const { accessToken, expiresAt } = getStoredCredentials();
+    setAccessToken(accessToken);
 
-    // Set token or null in case there isn't one.
-    setOldToken(token);
-
-    if (tokenExpiresAt) {
-      const hasExpired = new Date() > new Date(tokenExpiresAt);
-      setOldTokenHasExpired(hasExpired);
+    // If token is present and not expired.
+    if (accessToken && expiresAt && new Date() > new Date(expiresAt)) {
+      fetchCustomerNameQuery({
+        variables: {
+          token: accessToken,
+        },
+      });
     }
   }, []);
 
-  // - Runs customer query if old credentials are valid.
-  // - Exposes function to refetch data after a mutation.
-  const { data: customerQueryData, refetch } = useQuery<CustomerName>(
-    CUSTOMER_NAME,
-    {
-      // Skip initial query in case token doesn't exist or it has expired.
-      skip: !oldToken || oldTokenHasExpired,
-      variables: {
-        token: oldToken,
-      },
-    }
-  );
-
-  /** Stores customer access token and expiration date into localStorage */
-  const onAccessTokenCreated = (
-    result: Login_customerAccessTokenCreate | Register_customerAccessTokenCreate
-  ) => {
-    const { accessToken, expiresAt } = result.customerAccessToken;
-    localStorage.setItem("CUSTOMER_TOKEN", accessToken);
-    localStorage.setItem("CUSTOMER_TOKEN_EXPIRES_AT", expiresAt);
-    // Refetch customer query
-    refetch({
-      token: accessToken,
-    });
+  /** Resets the cache.
+   *  Called when auth state changes.
+   * @see https://www.apollographql.com/docs/react/networking/authentication/#reset-store-on-logout
+   */
+  const onAuthStateChange = (cache: ApolloCache<Login | Register | Logout>) => {
+    cache.reset();
   };
 
-  /** Removes customer access token and expiration date from localStorage */
-  const onAccessTokenDeleted = () => {
-    localStorage.removeItem("CUSTOMER_TOKEN");
-    localStorage.removeItem("CUSTOMER_TOKEN_EXPIRES_AT");
-    // TODO: invalidate cached response for customer query
+  /** Called after successful login or register */
+  const onLoginSuccess = (data: Login | Register) => {
+    const { customerAccessToken } = data.customerAccessTokenCreate;
+    storeCredentials(
+      customerAccessToken.accessToken,
+      customerAccessToken.expiresAt
+    );
+    // Refetch customer name query using new token.
+    fetchCustomerNameQuery({
+      variables: {
+        token: customerAccessToken.accessToken,
+      },
+    });
+    // Save access token so that logout function
+    // will use the correct one.
+    setAccessToken(customerAccessToken.accessToken);
   };
 
   const [login] = useMutation<Login>(LOGIN, {
-    onCompleted(data) {
-      onAccessTokenCreated(data.customerAccessTokenCreate);
-    },
+    update: onAuthStateChange,
+    onCompleted: onLoginSuccess,
   });
 
   const [register] = useMutation<Register>(REGISTER, {
-    onCompleted(data) {
-      onAccessTokenCreated(data.customerAccessTokenCreate);
-    },
+    update: onAuthStateChange,
+    onCompleted: onLoginSuccess,
   });
+
+  /** Called after successful logout */
+  const onLogoutSuccess = (_: Logout) => {
+    clearCredentials();
+    setAccessToken(null);
+  };
 
   const [logout] = useMutation<Logout>(LOGOUT, {
-    onCompleted() {
-      onAccessTokenDeleted();
+    variables: {
+      // Pass token so that consumer doesn't have to.
+      token: accessToken,
     },
+    update: onAuthStateChange,
+    onCompleted: onLogoutSuccess,
   });
 
-  const customer = customerQueryData?.customer || null;
-
   return (
-    <AuthContext.Provider value={{ login, logout, register, customer }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        logout,
+        register,
+        customer: customerNameQueryData?.customer || null,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
