@@ -6,16 +6,21 @@ import Link from "next/link";
 const Register: NextPage<{}> = () => {
   const { register } = useAuthContext();
 
-  const onSubmit = (values: RegisterFormValues) => {
+  const onSubmit = async (values: RegisterFormValues) => {
     try {
-      register({
+      const result = await register({
         variables: {
           email: values.email,
           password: values.password,
         },
       });
+      if (result.errors) {
+        const errors = result.errors.flatMap((error) => error.message);
+        throw new Error(errors.join("\n"));
+      }
+      alert(`Welcome`);
     } catch (err) {
-      alert(err.message);
+      alert(`Error: ${err.message}`);
     }
   };
 

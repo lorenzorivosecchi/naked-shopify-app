@@ -6,16 +6,21 @@ import useAuthContext from "src/utils/hooks/useAuthContext";
 const Login: NextPage<{}> = () => {
   const { login } = useAuthContext();
 
-  const onSubmit = (values: LoginFormValues) => {
+  const onSubmit = async (values: LoginFormValues) => {
     try {
-      login({
+      const result = await login({
         variables: {
           email: values.email,
           password: values.password,
         },
       });
+      if (result.errors) {
+        const errors = result.errors.flatMap((error) => error.message);
+        throw new Error(errors.join("\n"));
+      }
+      alert(`Welcome`);
     } catch (err) {
-      alert(err.message);
+      alert(`Error: ${err.message}`);
     }
   };
 
