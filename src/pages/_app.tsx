@@ -4,14 +4,13 @@ import AuthProvider from "src/components/AuthProvider";
 import Header from "../components/Header";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-const storeName = process.env.NEXT_PUBLIC_SHOPIFY_STORE;
-const publicAccessToken =
-  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+// Exposed through `next.config.js`.
+const { shopifyStorefrontApiURL, shopifyStorefrontApiToken } = process.env;
 
 const client = new ApolloClient({
-  uri: `https://${storeName}.myshopify.com/api/2021-01/graphql.json`,
+  uri: shopifyStorefrontApiURL,
   headers: {
-    "X-Shopify-Storefront-Access-Token": publicAccessToken,
+    "X-Shopify-Storefront-Access-Token": shopifyStorefrontApiToken,
   },
   cache: new InMemoryCache(),
 });

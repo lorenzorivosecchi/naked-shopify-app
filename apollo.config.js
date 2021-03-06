@@ -4,19 +4,25 @@ dotenv.config({
   path: "./.env.local",
 });
 
-const store = process.env.NEXT_PUBLIC_SHOPIFY_STORE;
-const publicAccessToken =
-  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+const getShopifyEnv = () => ({
+  url: process.env.SHOPIFY_STOREFRONT_API_URL,
+  headers: {
+    "X-Shopify-Storefront-Access-Token":
+      process.env.SHOPIFY_STOREFRONT_API_TOKEN,
+  },
+});
+
+const { url, headers } = getShopifyEnv();
 
 module.exports = {
   client: {
     service: {
       name: "shopify",
-      url: `https://${store}.myshopify.com/api/2021-01/graphql.json`,
-      headers: {
-        "X-Shopify-Storefront-Access-Token": publicAccessToken,
-      },
+      url,
+      headers,
     },
     excludes: ["./src/pages/**/*"],
   },
 };
+
+exports.getShopifyEnv = getShopifyEnv;

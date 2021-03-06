@@ -19,8 +19,8 @@ Generate API credentials for a private app, and take note of the API password.
 Then you should create a file called `.env.local` with the following content:
 
 ```shell
-NEXT_PUBLIC_SHOPIFY_STORE="your store name"
-NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN="your api password"
+SHOPIFY_STOREFRONT_API_URL="https://<your store>.myshopify.com/admin/api/2021-01/graphql.json"
+SHOPIFY_STOREFRONT_API_TOKEN="<your api token>"
 ```
 
 > Note: this file will be excluded from version control.
