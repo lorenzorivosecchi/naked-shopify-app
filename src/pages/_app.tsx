@@ -7,8 +7,8 @@ import Header from "src/components/Header";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <Header />
       <AuthProvider>
+        <Header />
         <Component {...pageProps} />
       </AuthProvider>
     </ApolloProvider>
