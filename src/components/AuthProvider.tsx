@@ -64,17 +64,19 @@ const CUSTOMER_NAME = gql`
   }
 `;
 
-/** Stores access token into localStorage */
+/** Stores customer access token and expiration date into localStorage */
 const onAccessTokenCreated = (
   result: Login_customerAccessTokenCreate | Register_customerAccessTokenCreate
 ) => {
-  const { accessToken } = result.customerAccessToken;
-  localStorage.setItem("token", accessToken);
+  const { accessToken, expiresAt } = result.customerAccessToken;
+  localStorage.setItem("CUSTOMER_TOKEN", accessToken);
+  localStorage.setItem("CUSTOMER_TOKEN_EXPIRES_AT", expiresAt);
 };
 
-/** Removes access token from localStorage */
+/** Removes customer access token and expiration date from localStorage */
 const onAccessTokenDeleted = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("CUSTOMER_TOKEN");
+  localStorage.removeItem("CUSTOMER_TOKEN_EXPIRES_AT");
 };
 
 interface Props {
