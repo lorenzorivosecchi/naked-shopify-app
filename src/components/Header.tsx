@@ -12,7 +12,7 @@ const SHOP_NAME = gql`
 
 const Header: React.FC<{}> = () => {
   const { data: shopNameQueryData } = useQuery<ShopName>(SHOP_NAME);
-  const { customer } = useAuthContext();
+  const { customer, logout } = useAuthContext();
 
   // Rendering the component only when data is available.
   if (!shopNameQueryData) {
@@ -26,6 +26,7 @@ const Header: React.FC<{}> = () => {
     <header>
       {shopName && <h1>{shopName}</h1>}
       {customerName && <p>Logged in as {customerName}</p>}
+      {customer && <button onClick={() => logout()}>Logout</button>}
     </header>
   );
 };
