@@ -1,19 +1,8 @@
 import { ApolloProvider } from "@apollo/client";
 import type { AppProps /*, AppContext */ } from "next/app";
 import AuthProvider from "src/components/AuthProvider";
-import Header from "../components/Header";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-
-// Exposed through `next.config.js`.
-const { shopifyStorefrontApiURL, shopifyStorefrontApiToken } = process.env;
-
-const client = new ApolloClient({
-  uri: shopifyStorefrontApiURL,
-  headers: {
-    "X-Shopify-Storefront-Access-Token": shopifyStorefrontApiToken,
-  },
-  cache: new InMemoryCache(),
-});
+import { client } from "src/utils/apolloClient";
+import Header from "src/components/Header";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
