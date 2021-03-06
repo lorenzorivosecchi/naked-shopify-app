@@ -1,5 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "src/utils/context/auth";
 import { CustomerName } from "./__generated__/CustomerName";
 import { Login, Login_customerAccessTokenCreate } from "./__generated__/Login";
