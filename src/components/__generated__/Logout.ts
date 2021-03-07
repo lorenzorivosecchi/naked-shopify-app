@@ -23,5 +23,5 @@ export interface Logout {
 }
 
 export interface LogoutVariables {
-  token: string;
+  accessToken: string;
 }

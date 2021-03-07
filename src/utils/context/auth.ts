@@ -1,7 +1,7 @@
 import { MutationFunction } from "@apollo/client";
 import React from "react";
 import { Login, LoginVariables } from "src/components/__generated__/Login";
-import { Logout } from "src/components/__generated__/Logout";
+import { Logout, LogoutVariables } from "src/components/__generated__/Logout";
 import {
   Register,
   RegisterVariables,
@@ -14,7 +14,7 @@ export interface CustomerAccessToken {
 
 interface AuthContextValue {
   login?: MutationFunction<Login, LoginVariables>;
-  logout?: MutationFunction<Logout>;
+  logout?: MutationFunction<Logout, LogoutVariables>;
   register?: MutationFunction<Register, RegisterVariables>;
   accessToken?: string;
   expiresAt?: string;

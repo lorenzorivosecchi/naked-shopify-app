@@ -22,16 +22,19 @@ const Header: React.FC<{}> = () => {
   }
 
   const shopName = shopNameQueryData?.shop?.name;
-  const customerName = customer?.displayName;
 
   return (
     <header>
       {shopName && <h1>{shopName}</h1>}
-      {customerName && <p>Logged in as {customerName}</p>}
       {customer && (
-        <button onClick={() => logout({ variables: { token: accessToken } })}>
-          Logout
-        </button>
+        <>
+          <p>Logged in as {customer?.displayName}</p>
+          {accessToken && (
+            <button onClick={() => logout({ variables: { accessToken } })}>
+              Logout
+            </button>
+          )}
+        </>
       )}
     </header>
   );

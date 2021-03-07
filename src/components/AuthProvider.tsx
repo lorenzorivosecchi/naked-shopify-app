@@ -1,12 +1,6 @@
-import { ApolloCache, gql, useLazyQuery, useMutation } from "@apollo/client";
+import { ApolloCache, gql, useMutation } from "@apollo/client";
 import { ReactNode, useEffect, useState } from "react";
-import {
-  clearCredentials,
-  getStoredCredentials,
-  storeCredentials,
-} from "src/utils/common";
 import { AuthContext } from "src/utils/context/auth";
-import { CustomerName } from "./__generated__/CustomerName";
 import { Login } from "./__generated__/Login";
 import { Logout } from "./__generated__/Logout";
 import { Register } from "./__generated__/Register";
@@ -28,8 +22,8 @@ const LOGIN = gql`
 `;
 
 const LOGOUT = gql`
-  mutation Logout($token: String!) {
-    customerAccessTokenDelete(customerAccessToken: $token) {
+  mutation Logout($accessToken: String!) {
+    customerAccessTokenDelete(customerAccessToken: $accessToken) {
       deletedAccessToken
     }
   }
@@ -52,16 +46,6 @@ const REGISTER = gql`
         accessToken
         expiresAt
       }
-    }
-  }
-`;
-
-const CUSTOMER_NAME = gql`
-  query CustomerName($token: String!) {
-    customer(customerAccessToken: $token) {
-      displayName
-      firstName
-      lastName
     }
   }
 `;
