@@ -4,9 +4,7 @@ import { useEffect } from "react";
 import useAuthContext from "../hooks/useAuthContext";
 
 /** Redirects to homepage when user is logged in. */
-const guestOnly = <Props extends {}>(
-  Component: React.FC<Props>
-): React.FC<Props> => {
+function guestOnly<Props>(Component: React.FC<Props>): React.FC<{}> {
   const GuestOnly: React.FC<Props> = (props) => {
     const router = useRouter();
     const { customer } = useAuthContext();
@@ -25,8 +23,7 @@ const guestOnly = <Props extends {}>(
 
     return <Component {...props} />;
   };
-
   return GuestOnly;
-};
+}
 
 export default guestOnly;
