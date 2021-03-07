@@ -6,10 +6,10 @@
 import { CustomerErrorCode } from "./../../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: Register
+// GraphQL mutation operation: CreateAccount
 // ====================================================
 
-export interface Register_customerCreate_customer {
+export interface CreateAccount_customerCreate_customer {
   __typename: "Customer";
   /**
    * A unique identifier for the customer.
@@ -17,7 +17,7 @@ export interface Register_customerCreate_customer {
   id: string;
 }
 
-export interface Register_customerCreate_customerUserErrors {
+export interface CreateAccount_customerCreate_customerUserErrors {
   __typename: "CustomerUserError";
   /**
    * Error code to uniquely identify the error.
@@ -33,19 +33,19 @@ export interface Register_customerCreate_customerUserErrors {
   message: string;
 }
 
-export interface Register_customerCreate {
+export interface CreateAccount_customerCreate {
   __typename: "CustomerCreatePayload";
   /**
    * The created customer object.
    */
-  customer: Register_customerCreate_customer | null;
+  customer: CreateAccount_customerCreate_customer | null;
   /**
    * List of errors that occurred executing the mutation.
    */
-  customerUserErrors: Register_customerCreate_customerUserErrors[];
+  customerUserErrors: CreateAccount_customerCreate_customerUserErrors[];
 }
 
-export interface Register_customerAccessTokenCreate_customerAccessToken {
+export interface CreateAccount_customerAccessTokenCreate_customerAccessToken {
   __typename: "CustomerAccessToken";
   /**
    * The customer’s access token.
@@ -57,27 +57,27 @@ export interface Register_customerAccessTokenCreate_customerAccessToken {
   expiresAt: any;
 }
 
-export interface Register_customerAccessTokenCreate {
+export interface CreateAccount_customerAccessTokenCreate {
   __typename: "CustomerAccessTokenCreatePayload";
   /**
    * The newly created customer access token object.
    */
-  customerAccessToken: Register_customerAccessTokenCreate_customerAccessToken | null;
+  customerAccessToken: CreateAccount_customerAccessTokenCreate_customerAccessToken | null;
 }
 
-export interface Register {
+export interface CreateAccount {
   /**
    * Creates a new customer.
    */
-  customerCreate: Register_customerCreate | null;
+  customerCreate: CreateAccount_customerCreate | null;
   /**
    * Creates a customer access token.
    * The customer access token is required to modify the customer object in any way.
    */
-  customerAccessTokenCreate: Register_customerAccessTokenCreate | null;
+  customerAccessTokenCreate: CreateAccount_customerAccessTokenCreate | null;
 }
 
-export interface RegisterVariables {
+export interface CreateAccountVariables {
   email: string;
   password: string;
 }

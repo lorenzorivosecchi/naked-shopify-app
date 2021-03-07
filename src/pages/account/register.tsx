@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import RegisterForm from "src/components/RegisterForm";
+import CreateAccountForm from "src/components/CreateAccountForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import guestOnly from "src/utils/hoc/guestOnly";
@@ -9,8 +9,8 @@ const Register: NextPage<{}> = () => {
 
   return (
     <>
-      <h1>Register</h1>
-      <RegisterForm
+      <h1>Create Account</h1>
+      <CreateAccountForm
         onSubmit={async (_, mutate) => {
           try {
             const result = await mutate();

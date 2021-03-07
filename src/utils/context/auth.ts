@@ -3,9 +3,9 @@ import React from "react";
 import { Login, LoginVariables } from "src/components/__generated__/Login";
 import { Logout, LogoutVariables } from "src/components/__generated__/Logout";
 import {
-  Register,
-  RegisterVariables,
-} from "src/components/__generated__/Register";
+  CreateAccount,
+  CreateAccountVariables,
+} from "src/components/__generated__/CreateAccount";
 
 export interface CustomerAccessToken {
   accessToken: string;
@@ -15,7 +15,7 @@ export interface CustomerAccessToken {
 interface AuthContextValue {
   login?: MutationFunction<Login, LoginVariables>;
   logout?: MutationFunction<Logout, LogoutVariables>;
-  register?: MutationFunction<Register, RegisterVariables>;
+  createAccount?: MutationFunction<CreateAccount, CreateAccountVariables>;
   accessToken?: string;
   expiresAt?: string;
 }

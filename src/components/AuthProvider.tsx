@@ -3,7 +3,10 @@ import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "src/utils/context/auth";
 import { Login, LoginVariables } from "./__generated__/Login";
 import { Logout, LogoutVariables } from "./__generated__/Logout";
-import { Register, RegisterVariables } from "./__generated__/Register";
+import {
+  CreateAccount,
+  CreateAccountVariables,
+} from "./__generated__/CreateAccount";
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -29,8 +32,8 @@ const LOGOUT = gql`
   }
 `;
 
-const REGISTER = gql`
-  mutation Register($email: String!, $password: String!) {
+const CREATE_ACCOUNT = gql`
+  mutation CreateAccount($email: String!, $password: String!) {
     customerCreate(input: { email: $email, password: $password }) {
       customer {
         id
@@ -87,12 +90,14 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
    *  Called when auth state changes.
    * @see https://www.apollographql.com/docs/react/networking/authentication/#reset-store-on-logout
    */
-  const onAuthStateChange = (cache: ApolloCache<Login | Register | Logout>) => {
+  const onAuthStateChange = (
+    cache: ApolloCache<Login | CreateAccount | Logout>
+  ) => {
     cache.reset();
   };
 
   /** Stores customer access token inside component state. */
-  const storeCustomerAccessToken = (data: Login | Register) => {
+  const storeCustomerAccessToken = (data: Login | CreateAccount) => {
     const { customerAccessToken } = data.customerAccessTokenCreate;
     setAccessToken(customerAccessToken.accessToken);
     setExpiresAt(customerAccessToken.expiresAt);
@@ -103,10 +108,13 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     onCompleted: storeCustomerAccessToken,
   });
 
-  const [register] = useMutation<Register, RegisterVariables>(REGISTER, {
-    update: onAuthStateChange,
-    onCompleted: storeCustomerAccessToken,
-  });
+  const [createAccount] = useMutation<CreateAccount, CreateAccountVariables>(
+    CREATE_ACCOUNT,
+    {
+      update: onAuthStateChange,
+      onCompleted: storeCustomerAccessToken,
+    }
+  );
 
   const [logout] = useMutation<Logout, LogoutVariables>(LOGOUT, {
     variables: {
@@ -124,7 +132,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       value={{
         login,
         logout,
-        register,
+        createAccount,
         accessToken,
         expiresAt,
       }}

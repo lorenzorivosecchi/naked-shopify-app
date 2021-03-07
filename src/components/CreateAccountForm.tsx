@@ -3,9 +3,12 @@ import React from "react";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
 import useAuthContext from "src/utils/hooks/useAuthContext";
-import { Register, RegisterVariables } from "./__generated__/Register";
+import {
+  CreateAccount,
+  CreateAccountVariables,
+} from "./__generated__/CreateAccount";
 
-export interface RegisterFormValues {
+export interface CreateAccountFormValues {
   email: string;
   password: string;
   passwordConfirmation: string;
@@ -15,19 +18,19 @@ interface Props {
   /** Helper function that fires when form gets submitted */
   onSubmit: (
     /** The values that the user submitted */
-    values: RegisterFormValues,
+    values: CreateAccountFormValues,
     /** A wrapper over the mutation function */
-    mutate: MutationFunction<Register, RegisterVariables>
+    mutate: MutationFunction<CreateAccount, CreateAccountVariables>
   ) => void;
 }
 
-const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
-  const { register } = useAuthContext();
+const CreateAccountForm: React.FC<Props> = ({ onSubmit }) => {
+  const { createAccount } = useAuthContext();
 
-  const handleSubmit = (values: RegisterFormValues) => {
+  const handleSubmit = (values: CreateAccountFormValues) => {
     // Prepare mutation for execution.
     const mutate = () =>
-      register({
+      createAccount({
         variables: {
           email: values.email,
           password: values.password,
@@ -37,7 +40,10 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   };
 
   return (
-    <Form<RegisterFormValues> label="Create account" onSubmit={handleSubmit}>
+    <Form<CreateAccountFormValues>
+      label="Create account"
+      onSubmit={handleSubmit}
+    >
       {({ register, getValues, formState: { errors } }) => (
         <>
           <Input
@@ -79,4 +85,4 @@ const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
   );
 };
 
-export default RegisterForm;
+export default CreateAccountForm;
