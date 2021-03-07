@@ -1,9 +1,5 @@
-import { LazyQueryResult, MutationFunction } from "@apollo/client";
+import { MutationFunction } from "@apollo/client";
 import React from "react";
-import {
-  CustomerName,
-  CustomerNameVariables,
-} from "src/components/__generated__/CustomerName";
 import { Login, LoginVariables } from "src/components/__generated__/Login";
 import { Logout } from "src/components/__generated__/Logout";
 import {
@@ -11,14 +7,17 @@ import {
   RegisterVariables,
 } from "src/components/__generated__/Register";
 
+export interface CustomerAccessToken {
+  accessToken: string;
+  expiresAt: string;
+}
+
 interface AuthContextValue {
   login?: MutationFunction<Login, LoginVariables>;
   logout?: MutationFunction<Logout>;
   register?: MutationFunction<Register, RegisterVariables>;
-  customer?: LazyQueryResult<
-    CustomerName,
-    CustomerNameVariables
-  >["data"]["customer"];
+  accessToken?: string;
+  expiresAt?: string;
 }
 
 export const AuthContext = React.createContext<AuthContextValue>({});

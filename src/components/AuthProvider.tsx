@@ -75,26 +75,29 @@ interface Props {
  */
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const [accessToken, setAccessToken] = useState<string | null>();
+  const [expiresAt, setExpiresAt] = useState<string | null>();
 
-  const [
-    fetchCustomerNameQuery,
-    { data: customerNameQueryData },
-  ] = useLazyQuery<CustomerName>(CUSTOMER_NAME);
-
-  // Checks inside localStorage for token and expiration date.
   useEffect(() => {
-    const { accessToken, expiresAt } = getStoredCredentials();
-    setAccessToken(accessToken);
+    // Look for credentials inside localStorage
+    const accessToken = localStorage.getItem("CUSTOMER_TOKEN");
+    const expiresAt = localStorage.getItem("CUSTOMER_TOKEN_EXPIRES_AT");
 
-    // If token is present and not expired.
-    if (accessToken && expiresAt && new Date() > new Date(expiresAt)) {
-      fetchCustomerNameQuery({
-        variables: {
-          token: accessToken,
-        },
-      });
+    // Verify that token is present and not expired
+    if (accessToken && expiresAt && new Date() < new Date(expiresAt)) {
+      setAccessToken(accessToken);
+      setExpiresAt(expiresAt);
     }
   }, []);
+
+  // Watches accessToken and expiresAt and updates localStorage counterparts.
+  useEffect(() => {
+    accessToken
+      ? localStorage.setItem("CUSTOMER_TOKEN", accessToken)
+      : localStorage.removeItem("CUSTOMER_TOKEN");
+    expiresAt
+      ? localStorage.setItem("CUSTOMER_TOKEN_EXPIRES_AT", expiresAt)
+      : localStorage.removeItem("CUSTOMER_TOKEN_EXPIRES_AT");
+  }, [accessToken, expiresAt]);
 
   /** Resets the cache.
    *  Called when auth state changes.
@@ -104,47 +107,29 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     cache.reset();
   };
 
-  /** Called after successful login or register */
-  const onLoginSuccess = (data: Login | Register) => {
+  /** Stores customer access token inside component state. */
+  const storeCustomerAccessToken = (data: Login | Register) => {
     const { customerAccessToken } = data.customerAccessTokenCreate;
-    storeCredentials(
-      customerAccessToken.accessToken,
-      customerAccessToken.expiresAt
-    );
-    // Refetch customer name query using new token.
-    fetchCustomerNameQuery({
-      variables: {
-        token: customerAccessToken.accessToken,
-      },
-    });
-    // Save access token so that logout function
-    // will use the correct one.
     setAccessToken(customerAccessToken.accessToken);
+    setExpiresAt(customerAccessToken.expiresAt);
   };
 
-  const [login] = useMutation<Login>(LOGIN, {
+  const [login] = useMutation<Login, {}>(LOGIN, {
     update: onAuthStateChange,
-    onCompleted: onLoginSuccess,
+    onCompleted: storeCustomerAccessToken,
   });
 
-  const [register] = useMutation<Register>(REGISTER, {
+  const [register] = useMutation<Register, {}>(REGISTER, {
     update: onAuthStateChange,
-    onCompleted: onLoginSuccess,
+    onCompleted: storeCustomerAccessToken,
   });
 
-  /** Called after successful logout */
-  const onLogoutSuccess = (_: Logout) => {
-    clearCredentials();
-    setAccessToken(null);
-  };
-
-  const [logout] = useMutation<Logout>(LOGOUT, {
-    variables: {
-      // Pass token so that consumer doesn't have to.
-      token: accessToken,
+  const [logout] = useMutation<Logout, {}>(LOGOUT, {
+    update: onAuthStateChange,
+    onCompleted: () => {
+      setAccessToken(null);
+      setExpiresAt(null);
     },
-    update: onAuthStateChange,
-    onCompleted: onLogoutSuccess,
   });
 
   return (
@@ -153,7 +138,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         login,
         logout,
         register,
-        customer: customerNameQueryData?.customer || null,
+        accessToken,
+        expiresAt,
       }}
     >
       {children}
