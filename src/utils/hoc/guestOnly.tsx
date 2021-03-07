@@ -1,10 +1,10 @@
 import { React } from "@ungap/global-this";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import useAuthContext from "../hooks/useAuthContext";
 
 /** Redirects to homepage when user is logged in. */
-function guestOnly<Props>(Component: React.FC<Props>): React.FC<{}> {
+function guestOnly<Props>(Component: React.FC<Props>): React.FC<Props> {
   const GuestOnly: React.FC<Props> = (props) => {
     const router = useRouter();
     const { customer } = useAuthContext();
@@ -23,7 +23,8 @@ function guestOnly<Props>(Component: React.FC<Props>): React.FC<{}> {
 
     return <Component {...props} />;
   };
-  return GuestOnly;
+  // Make wrapper rerender only when props change.
+  return memo(GuestOnly);
 }
 
 export default guestOnly;
