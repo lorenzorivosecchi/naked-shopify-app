@@ -1,33 +1,28 @@
 import { NextPage } from "next";
-import LoginForm, { LoginFormValues } from "src/components/LoginForm";
+import LoginForm from "src/components/LoginForm";
 import Link from "next/link";
-import useAuthContext from "src/utils/hooks/useAuthContext";
+import { useRouter } from "next/router";
 
 const Login: NextPage<{}> = () => {
-  const { login } = useAuthContext();
-
-  const onSubmit = async (values: LoginFormValues) => {
-    try {
-      const result = await login({
-        variables: {
-          email: values.email,
-          password: values.password,
-        },
-      });
-      if (result.errors) {
-        const errors = result.errors.flatMap((error) => error.message);
-        throw new Error(errors.join("\n"));
-      }
-      alert(`Welcome`);
-    } catch (err) {
-      alert(`Error: ${err.message}`);
-    }
-  };
+  const router = useRouter();
 
   return (
     <>
       <h1>Login</h1>
-      <LoginForm onSubmit={onSubmit} />
+      <LoginForm
+        onSubmit={async (_, mutate) => {
+          try {
+            const result = await mutate();
+            // if mutation was successful
+            if (result.data) {
+              // Redirect to homepage
+              router.push("/");
+            }
+          } catch (err) {
+            alert(err.message);
+          }
+        }}
+      />
       <Link href="/account/register">
         <a>I don't have an account</a>
       </Link>

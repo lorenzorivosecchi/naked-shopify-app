@@ -1,7 +1,9 @@
+import { MutationFunction } from "@apollo/client";
 import React from "react";
-import { SubmitHandler } from "react-hook-form";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
+import useAuthContext from "src/utils/hooks/useAuthContext";
+import { Register, RegisterVariables } from "./__generated__/Register";
 
 export interface RegisterFormValues {
   email: string;
@@ -10,12 +12,32 @@ export interface RegisterFormValues {
 }
 
 interface Props {
-  onSubmit: SubmitHandler<RegisterFormValues>;
+  /** Helper function that fires when form gets submitted */
+  onSubmit: (
+    /** The values that the user submitted */
+    values: RegisterFormValues,
+    /** A wrapper over the mutation function */
+    mutate: MutationFunction<Register, RegisterVariables>
+  ) => void;
 }
 
 const RegisterForm: React.FC<Props> = ({ onSubmit }) => {
+  const { register } = useAuthContext();
+
+  const handleSubmit = (values: RegisterFormValues) => {
+    // Prepare mutation for execution.
+    const mutate = () =>
+      register({
+        variables: {
+          email: values.email,
+          password: values.password,
+        },
+      });
+    onSubmit(values, mutate);
+  };
+
   return (
-    <Form<RegisterFormValues> label="Create account" onSubmit={onSubmit}>
+    <Form<RegisterFormValues> label="Create account" onSubmit={handleSubmit}>
       {({ register, getValues, formState: { errors } }) => (
         <>
           <Input

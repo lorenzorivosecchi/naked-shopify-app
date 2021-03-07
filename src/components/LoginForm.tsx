@@ -1,6 +1,8 @@
+import { MutationFunction } from "@apollo/client";
 import React from "react";
-import { SubmitHandler } from "react-hook-form";
 import { Form, Input, Error, Submit } from "src/lib/easy-form";
+import useAuthContext from "src/utils/hooks/useAuthContext";
+import { Login, LoginVariables } from "./__generated__/Login";
 
 export interface LoginFormValues {
   email: string;
@@ -8,12 +10,32 @@ export interface LoginFormValues {
 }
 
 interface Props {
-  onSubmit: SubmitHandler<LoginFormValues>;
+  /** Helper function that fires when form gets submitted */
+  onSubmit: (
+    /** The values that the user submitted */
+    values: LoginFormValues,
+    /** A wrapper over the mutation function */
+    mutate: MutationFunction<Login, LoginVariables>
+  ) => void;
 }
 
 const LoginForm: React.FC<Props> = ({ onSubmit }) => {
+  const { login } = useAuthContext();
+
+  const handleSubmit = (values: LoginFormValues) => {
+    // Prepare mutation for execution.
+    const mutate = () =>
+      login({
+        variables: {
+          email: values.email,
+          password: values.password,
+        },
+      });
+    onSubmit(values, mutate);
+  };
+
   return (
-    <Form<LoginFormValues> label="Login" onSubmit={onSubmit}>
+    <Form<LoginFormValues> label="Login" onSubmit={handleSubmit}>
       {({ register, formState: { errors } }) => (
         <>
           <Input
