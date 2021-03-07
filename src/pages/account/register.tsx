@@ -1,10 +1,10 @@
 import { NextPage } from "next";
+import useRedirect from "src/utils/hooks/useRedirect";
 import RegisterForm from "src/components/RegisterForm";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const Register: NextPage<{}> = () => {
-  const router = useRouter();
+  const redirect = useRedirect();
 
   return (
     <>
@@ -13,10 +13,9 @@ const Register: NextPage<{}> = () => {
         onSubmit={async (_, mutate) => {
           try {
             const result = await mutate();
-            // if mutation was successful
+            // Redirect if mutation was successful
             if (result.data) {
-              // Redirect to homepage
-              router.push("/");
+              redirect();
             }
           } catch (err) {
             alert(err.message);
