@@ -1,13 +1,13 @@
 import { React } from "@ungap/global-this";
 import { useRouter } from "next/router";
 import { memo, useEffect } from "react";
-import useAuthContext from "../hooks/useAuthContext";
+import useCustomer from "../hooks/useCustomer";
 
 /** Redirects to homepage when user is logged in. */
 function guestOnly<Props>(Component: React.FC<Props>): React.FC<Props> {
   const GuestOnly: React.FC<Props> = (props) => {
     const router = useRouter();
-    const { customer } = useAuthContext();
+    const customer = useCustomer();
 
     useEffect(() => {
       // Redirect to homepage when user is logged in.
