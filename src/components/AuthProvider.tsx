@@ -1,9 +1,9 @@
 import { ApolloCache, gql, useMutation } from "@apollo/client";
 import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "src/utils/context/auth";
-import { Login } from "./__generated__/Login";
-import { Logout } from "./__generated__/Logout";
-import { Register } from "./__generated__/Register";
+import { Login, LoginVariables } from "./__generated__/Login";
+import { Logout, LogoutVariables } from "./__generated__/Logout";
+import { Register, RegisterVariables } from "./__generated__/Register";
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
@@ -98,17 +98,20 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     setExpiresAt(customerAccessToken.expiresAt);
   };
 
-  const [login] = useMutation<Login, {}>(LOGIN, {
+  const [login] = useMutation<Login, LoginVariables>(LOGIN, {
     update: onAuthStateChange,
     onCompleted: storeCustomerAccessToken,
   });
 
-  const [register] = useMutation<Register, {}>(REGISTER, {
+  const [register] = useMutation<Register, RegisterVariables>(REGISTER, {
     update: onAuthStateChange,
     onCompleted: storeCustomerAccessToken,
   });
 
-  const [logout] = useMutation<Logout, {}>(LOGOUT, {
+  const [logout] = useMutation<Logout, LogoutVariables>(LOGOUT, {
+    variables: {
+      accessToken,
+    },
     update: onAuthStateChange,
     onCompleted: () => {
       setAccessToken(null);
