@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import RegisterForm from "src/components/RegisterForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import guestOnly from "src/utils/hoc/guestOnly";
 
 const Register: NextPage<{}> = () => {
   const router = useRouter();
@@ -30,4 +31,4 @@ const Register: NextPage<{}> = () => {
   );
 };
 
-export default Register;
+export default guestOnly(Register);

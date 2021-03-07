@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import LoginForm from "src/components/LoginForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import guestOnly from "src/utils/hoc/guestOnly";
 
 const Login: NextPage<{}> = () => {
   const router = useRouter();
@@ -30,4 +31,4 @@ const Login: NextPage<{}> = () => {
   );
 };
 
-export default Login;
+export default guestOnly(Login);
