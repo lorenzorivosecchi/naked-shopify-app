@@ -7,11 +7,6 @@ import {
   CreateAccountVariables,
 } from "src/components/__generated__/CreateAccount";
 
-export interface CustomerAccessToken {
-  accessToken: string;
-  expiresAt: string;
-}
-
 interface AuthContextValue {
   login?: MutationFunction<Login, LoginVariables>;
   logout?: MutationFunction<Logout, LogoutVariables>;
