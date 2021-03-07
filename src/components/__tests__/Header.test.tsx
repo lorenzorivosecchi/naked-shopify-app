@@ -16,9 +16,6 @@ describe("Header", () => {
       </AutoMockedProvider>
     );
 
-    const loading = getByText(/Loading.../i);
-    expect(loading).toBeInTheDocument();
-
     await waitFor(() => {
       const shopName = getByText(/My Shop/i);
       expect(shopName).toBeInTheDocument();
