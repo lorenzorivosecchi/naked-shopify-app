@@ -24,5 +24,3 @@ module.exports = {
     excludes: ["./src/pages/**/*"],
   },
 };
-
-exports.getShopifyEnv = getShopifyEnv;
