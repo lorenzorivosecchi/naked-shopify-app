@@ -8,8 +8,6 @@ import introspectionResult from "schema.json";
 
 interface Props {
   children: ReactNode;
-  /** @deprecated use resolvers instead */
-  mocks?: IMocks;
   resolvers?: (store?: IMockStore) => Record<string, unknown>;
 }
 
@@ -18,7 +16,7 @@ interface Props {
  * @see https://www.youtube.com/watch?v=FKA5iNYpd_8&t=43s
  */
 const AutoMockedProvider: React.FC<Props> = (props) => {
-  const { children, mocks, resolvers } = props;
+  const { children, resolvers } = props;
 
   // Convert JSON schema into Schema Definition Language
   const schemaDL = printSchema(
@@ -33,8 +31,17 @@ const AutoMockedProvider: React.FC<Props> = (props) => {
     },
   });
 
+  // Provide custom values for scalars and types
+  const mocks: IMocks = {
+    DateTime: () => "2019-07-03T20:47:55Z",
+  };
+
   // Apply mock resolvers to executable schema
-  const mockedSchema = addMocksToSchema({ schema, mocks, resolvers });
+  const mockedSchema = addMocksToSchema({
+    schema,
+    mocks,
+    resolvers,
+  });
 
   // Define ApolloClient (client variable used below)
   const client = new ApolloClient({
