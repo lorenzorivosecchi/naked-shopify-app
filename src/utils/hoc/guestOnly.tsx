@@ -1,6 +1,5 @@
-import { React } from "@ungap/global-this";
 import { useRouter } from "next/router";
-import { memo, useEffect } from "react";
+import { useEffect } from "react";
 import useCustomer from "../hooks/useCustomer";
 
 /** Redirects to homepage when user is logged in. */
@@ -24,7 +23,7 @@ function guestOnly<Props>(Component: React.FC<Props>): React.FC<Props> {
     return <Component {...props} />;
   };
   // Make wrapper rerender only when props change.
-  return memo(GuestOnly);
+  return GuestOnly;
 }
 
 export default guestOnly;
