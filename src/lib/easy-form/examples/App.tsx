@@ -8,7 +8,7 @@ interface FormValues {
 }
 
 const App = () => {
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = () => null;
 
   return (
     <Form<FormValues> label="Profile" onSubmit={onSubmit}>

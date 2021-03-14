@@ -21,10 +21,7 @@ const Form = <TFormValues extends FieldValues = FieldValues>({
 }: FormProps<TFormValues>) => {
   const methods = useForm<TFormValues>();
   return (
-    <form
-      aria-label={label}
-      onSubmit={methods.handleSubmit(onSubmit, console.log)}
-    >
+    <form aria-label={label} onSubmit={methods.handleSubmit(onSubmit)}>
       {children(methods)}
     </form>
   );
