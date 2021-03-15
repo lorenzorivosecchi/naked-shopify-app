@@ -90,9 +90,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
    *  Called when auth state changes.
    * @see https://www.apollographql.com/docs/react/networking/authentication/#reset-store-on-logout
    */
-  const onAuthStateChange = (
-    cache: ApolloCache<Login | CreateAccount | Logout>
-  ) => {
+  const onAuthStateChange = (cache: ApolloCache<{}>) => {
     cache.reset();
   };
 
