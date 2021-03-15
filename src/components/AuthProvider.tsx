@@ -1,5 +1,6 @@
 import { ApolloCache, gql, useMutation } from "@apollo/client";
 import { ReactNode, useEffect, useState } from "react";
+import { CUSTOMER_TOKEN, CUSTOMER_TOKEN_EXPIRES_AT } from "src/utils/constants";
 import { AuthContext } from "src/utils/context/auth";
 import { Login, LoginVariables } from "./__generated__/Login";
 import { Logout, LogoutVariables } from "./__generated__/Logout";
@@ -66,8 +67,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     // Look for credentials inside localStorage
-    const accessToken = localStorage.getItem("CUSTOMER_TOKEN");
-    const expiresAt = localStorage.getItem("CUSTOMER_TOKEN_EXPIRES_AT");
+    const accessToken = localStorage.getItem(CUSTOMER_TOKEN);
+    const expiresAt = localStorage.getItem(CUSTOMER_TOKEN_EXPIRES_AT);
 
     // Verify that token is present and not expired
     if (accessToken && expiresAt && new Date() < new Date(expiresAt)) {
@@ -79,11 +80,11 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   // Watches accessToken and expiresAt and updates localStorage counterparts.
   useEffect(() => {
     accessToken
-      ? localStorage.setItem("CUSTOMER_TOKEN", accessToken)
-      : localStorage.removeItem("CUSTOMER_TOKEN");
+      ? localStorage.setItem(CUSTOMER_TOKEN, accessToken)
+      : localStorage.removeItem(CUSTOMER_TOKEN);
     expiresAt
-      ? localStorage.setItem("CUSTOMER_TOKEN_EXPIRES_AT", expiresAt)
-      : localStorage.removeItem("CUSTOMER_TOKEN_EXPIRES_AT");
+      ? localStorage.setItem(CUSTOMER_TOKEN_EXPIRES_AT, expiresAt)
+      : localStorage.removeItem(CUSTOMER_TOKEN_EXPIRES_AT);
   }, [accessToken, expiresAt]);
 
   /** Resets the cache.
