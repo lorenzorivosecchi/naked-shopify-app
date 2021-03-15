@@ -1,12 +1,8 @@
-import { MutationFunction } from "@apollo/client";
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
 import useAuthContext from "src/utils/hooks/useAuthContext";
-import {
-  CreateAccount,
-  CreateAccountVariables,
-} from "./__generated__/CreateAccount";
+import { CreateAccount } from "./__generated__/CreateAccount";
 
 export interface CreateAccountFormValues {
   email: string;
@@ -14,29 +10,34 @@ export interface CreateAccountFormValues {
   passwordConfirmation: string;
 }
 
+type CustomerUserErrors = CreateAccount["customerCreate"]["customerUserErrors"];
+
 interface Props {
-  /** Helper function that fires when form gets submitted */
-  onSubmit: (
-    /** The values that the user submitted */
-    values: CreateAccountFormValues,
-    /** A wrapper over the mutation function */
-    mutate: MutationFunction<CreateAccount, CreateAccountVariables>
-  ) => void;
+  onSuccess: () => void;
 }
 
-const CreateAccountForm: React.FC<Props> = ({ onSubmit }) => {
+const CreateAccountForm: React.FC<Props> = ({ onSuccess }) => {
   const { createAccount } = useAuthContext();
 
-  const handleSubmit = (values: CreateAccountFormValues) => {
-    // Prepare mutation for execution.
-    const mutate = () =>
-      createAccount({
-        variables: {
-          email: values.email,
-          password: values.password,
-        },
-      });
-    onSubmit(values, mutate);
+  const [serverErrors, setServerErrors] = useState<CustomerUserErrors>();
+
+  const handleSubmit = async (values: CreateAccountFormValues) => {
+    const result = await createAccount({
+      variables: {
+        email: values.email,
+        password: values.password,
+      },
+    });
+
+    const customerUserErrors = result?.data?.customerCreate?.customerUserErrors;
+
+    // Check if there were user errors in the request.
+    if (customerUserErrors?.length > 0) {
+      // Save list of server error messages into the component state.
+      setServerErrors(customerUserErrors);
+    } else {
+      onSuccess();
+    }
   };
 
   return (
@@ -79,6 +80,12 @@ const CreateAccountForm: React.FC<Props> = ({ onSubmit }) => {
             <Error>Passwords don't match</Error>
           )}
           <Submit />
+          {/* Log a list of server errors if there are any */}
+          {serverErrors?.map((error, index) => (
+            <Error key={index}>
+              [{error.code}] {error.message}
+            </Error>
+          ))}
         </>
       )}
     </Form>

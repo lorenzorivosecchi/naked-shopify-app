@@ -10,20 +10,7 @@ const Register: NextPage<{}> = () => {
   return (
     <>
       <h1>Create Account</h1>
-      <CreateAccountForm
-        onSubmit={async (_, mutate) => {
-          try {
-            const result = await mutate();
-            // if mutation was successful
-            if (result.data) {
-              // Redirect to homepage
-              router.push("/");
-            }
-          } catch (err) {
-            alert(err.message);
-          }
-        }}
-      />
+      <CreateAccountForm onSuccess={() => router.push("/")} />
       <Link href="/account/login">
         <a>I already have an account</a>
       </Link>
