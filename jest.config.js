@@ -15,5 +15,6 @@ module.exports = {
     "@/(.*)$": "<rootDir>/src/$1",
     "src/(.*)$": "<rootDir>/src/$1",
     "^(schema.json)$": "<rootDir>/$1",
+    "__generated__/(.*)$": "<rootDir>/__generated__/$1",
   },
 };
