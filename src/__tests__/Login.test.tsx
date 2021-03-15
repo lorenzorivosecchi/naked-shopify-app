@@ -7,11 +7,10 @@ import Router from "next/router";
 import { Login_customerAccessTokenCreate } from "src/components/__generated__/Login";
 import { CustomerErrorCode } from "__generated__/globalTypes";
 
+jest.mock("next/router");
+
 describe("Login", () => {
   it("redirects to homepage when login is successful", async () => {
-    jest.mock("next/router");
-    jest.spyOn(window, "alert").mockImplementation(() => {});
-
     const resolvers = () => ({
       Mutation: {
         customerAccessTokenCreate: (): Login_customerAccessTokenCreate => ({
@@ -49,9 +48,6 @@ describe("Login", () => {
   });
 
   it("alerts user when login is unsuccessfull", async () => {
-    jest.mock("next/router");
-    jest.spyOn(window, "alert").mockImplementation(() => {});
-
     const resolvers = () => ({
       Mutation: {
         customerAccessTokenCreate: (): Login_customerAccessTokenCreate => ({
