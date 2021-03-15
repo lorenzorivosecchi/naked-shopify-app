@@ -1,17 +1,33 @@
-import { render, waitFor } from "@testing-library/react";
+import { getByText, render, waitFor } from "@testing-library/react";
 import AuthProvider from "src/components/AuthProvider";
 import AutoMockedProvider from "src/utils/testing/AutoMockedProvider";
 import Login from "src/pages/account/login";
 import userEvent from "@testing-library/user-event";
 import Router from "next/router";
+import { Login_customerAccessTokenCreate } from "src/components/__generated__/Login";
+import { CustomerErrorCode } from "__generated__/globalTypes";
 
 describe("Login", () => {
   it("redirects to homepage when login is successful", async () => {
     jest.mock("next/router");
     jest.spyOn(window, "alert").mockImplementation(() => {});
 
+    const resolvers = () => ({
+      Mutation: {
+        customerAccessTokenCreate: (): Login_customerAccessTokenCreate => ({
+          __typename: "CustomerAccessTokenCreatePayload",
+          customerAccessToken: {
+            __typename: "CustomerAccessToken",
+            accessToken: "123456789",
+            expiresAt: "2019-07-03T20:47:55Z",
+          },
+          customerUserErrors: [],
+        }),
+      },
+    });
+
     const { getByLabelText, getByRole } = render(
-      <AutoMockedProvider>
+      <AutoMockedProvider resolvers={resolvers}>
         <AuthProvider>
           <Login />
         </AuthProvider>
@@ -27,9 +43,51 @@ describe("Login", () => {
     userEvent.click(submit);
 
     await waitFor(() => {
-      expect(window["alert"]).toHaveBeenCalledTimes(0);
       expect(Router.push).toHaveBeenCalledTimes(1);
       expect(Router.push).toHaveBeenCalledWith("/");
+    });
+  });
+
+  it("alerts user when login is unsuccessfull", async () => {
+    jest.mock("next/router");
+    jest.spyOn(window, "alert").mockImplementation(() => {});
+
+    const resolvers = () => ({
+      Mutation: {
+        customerAccessTokenCreate: (): Login_customerAccessTokenCreate => ({
+          __typename: "CustomerAccessTokenCreatePayload",
+          customerAccessToken: null,
+          customerUserErrors: [
+            {
+              __typename: "CustomerUserError",
+              code: CustomerErrorCode.INVALID,
+              field: null,
+              message: "Invalid password",
+            },
+          ],
+        }),
+      },
+    });
+
+    const { getByLabelText, getByRole, getByText } = render(
+      <AutoMockedProvider resolvers={resolvers}>
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
+      </AutoMockedProvider>
+    );
+
+    const email = getByLabelText(/email/i);
+    const password = getByLabelText(/password/i);
+    const submit = getByRole("button", { name: /submit/i });
+
+    userEvent.type(email, "hello@world.com");
+    userEvent.type(password, "helloworld");
+    userEvent.click(submit);
+
+    await waitFor(() => {
+      const passwordError = getByText(/\[INVALID\] Invalid password/i);
+      expect(passwordError).toBeInTheDocument();
     });
   });
 });
