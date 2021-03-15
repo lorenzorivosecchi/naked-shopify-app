@@ -10,6 +10,8 @@ export interface CreateAccountFormValues {
   passwordConfirmation: string;
 }
 
+// An array of mutation errors.
+// I Don't know why a CustomerUserError type isn't exported from schema by apollo CLI.
 type CustomerUserErrors = CreateAccount["customerCreate"]["customerUserErrors"];
 
 interface Props {

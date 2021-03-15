@@ -9,7 +9,7 @@ export interface LoginFormValues {
 }
 
 // An array of mutation errors.
-// I Don't know why a CustomerUserError type isn't exported from schema by apollo ci.
+// I Don't know why a CustomerUserError type isn't exported from schema by apollo CLI.
 type CustomerUserErrors = Login["customerAccessTokenCreate"]["customerUserErrors"];
 
 interface Props {
