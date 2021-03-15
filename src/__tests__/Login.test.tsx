@@ -1,4 +1,4 @@
-import { getByText, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import AuthProvider from "src/components/AuthProvider";
 import AutoMockedProvider from "src/utils/testing/AutoMockedProvider";
 import Login from "src/pages/account/login";
@@ -10,7 +10,7 @@ import { CustomerErrorCode } from "__generated__/globalTypes";
 jest.mock("next/router");
 
 describe("Login", () => {
-  it("redirects to homepage when login is successful", async () => {
+  it("redirects to homepage when mutation succedes", async () => {
     const resolvers = () => ({
       Mutation: {
         customerAccessTokenCreate: (): Login_customerAccessTokenCreate => ({
@@ -47,7 +47,7 @@ describe("Login", () => {
     });
   });
 
-  it("alerts user when login is unsuccessfull", async () => {
+  it("displays errors when mutation fails", async () => {
     const resolvers = () => ({
       Mutation: {
         customerAccessTokenCreate: (): Login_customerAccessTokenCreate => ({

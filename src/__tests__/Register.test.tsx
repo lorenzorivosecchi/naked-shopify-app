@@ -10,7 +10,7 @@ import { CustomerErrorCode } from "__generated__/globalTypes";
 jest.mock("next/router");
 
 describe("Register", () => {
-  it("redirects to homepage when login is successful", async () => {
+  it("redirects to homepage when mutation succedes", async () => {
     const resolvers = () => ({
       Mutation: {
         customerCreate: (): CreateAccount_customerCreate => ({
@@ -48,7 +48,7 @@ describe("Register", () => {
     });
   });
 
-  it("alerts user when login is unsuccessfull", async () => {
+  it("displays errors when mutation fails", async () => {
     const resolvers = () => ({
       Mutation: {
         customerCreate: (): CreateAccount_customerCreate => ({
