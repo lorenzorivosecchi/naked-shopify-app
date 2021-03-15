@@ -98,9 +98,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   /** Stores customer access token inside component state. */
   const storeCustomerAccessToken = (data: Login | CreateAccount) => {
-    const { customerAccessToken } = data.customerAccessTokenCreate;
-    setAccessToken(customerAccessToken.accessToken);
-    setExpiresAt(customerAccessToken.expiresAt);
+    const customerAccessToken =
+      data.customerAccessTokenCreate?.customerAccessToken;
+    if (customerAccessToken) {
+      setAccessToken(customerAccessToken.accessToken);
+      setExpiresAt(customerAccessToken.expiresAt);
+    }
   };
 
   const [login] = useMutation<Login, LoginVariables>(LOGIN, {
