@@ -14,10 +14,10 @@ const SHOP_NAME = gql`
 const Header: React.FC<{}> = () => {
   const { data: shopNameQueryData } = useQuery<ShopName>(SHOP_NAME);
   const [logout] = useLogout();
-  const customer = useCustomer();
+  const { data: customerData } = useCustomer();
 
   const shopName = shopNameQueryData?.shop?.name;
-  const customerName = customer?.displayName;
+  const customerName = customerData?.customer?.displayName;
 
   return (
     <header>

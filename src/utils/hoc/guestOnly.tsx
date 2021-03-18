@@ -6,17 +6,19 @@ import useCustomer from "../hooks/useCustomer";
 function guestOnly<Props>(Component: React.FC<Props>): React.FC<Props> {
   const GuestOnly: React.FC<Props> = (props) => {
     const router = useRouter();
-    const customer = useCustomer();
+    const { data: customerData } = useCustomer();
+
+    const isLoggedIn = !!customerData?.customer?.displayName;
 
     useEffect(() => {
       // Redirect to homepage when user is logged in.
-      if (customer) {
+      if (isLoggedIn) {
         router.push("/");
       }
     }, []);
 
     // Prevent flash of page content during redirections.
-    if (customer) {
+    if (isLoggedIn) {
       return null;
     }
 
