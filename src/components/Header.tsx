@@ -16,19 +16,15 @@ const Header: React.FC<{}> = () => {
   const { logout } = useAuthContext();
   const customer = useCustomer();
 
-  // Rendering the component only when data is available.
-  if (!shopNameQueryData) {
-    return null;
-  }
-
   const shopName = shopNameQueryData?.shop?.name;
+  const customerName = customer?.displayName;
 
   return (
     <header>
       {shopName && <h1>{shopName}</h1>}
-      {customer && (
+      {customerName && (
         <>
-          <p>Logged in as {customer?.displayName}</p>
+          <p>Logged in as {customerName}</p>
           <button onClick={() => logout()}>Logout</button>
         </>
       )}
