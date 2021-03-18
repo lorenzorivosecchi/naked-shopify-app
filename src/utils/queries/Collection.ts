@@ -17,6 +17,7 @@ export const COLLECTION = gql`
           node {
             handle
             title
+            descriptionHtml
           }
         }
       }

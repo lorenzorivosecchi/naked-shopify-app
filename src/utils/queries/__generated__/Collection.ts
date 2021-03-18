@@ -18,6 +18,10 @@ export interface Collection_collectionByHandle_products_edges_node {
    * The product’s title.
    */
   title: string;
+  /**
+   * The description of the product, complete with HTML formatting.
+   */
+  descriptionHtml: any;
 }
 
 export interface Collection_collectionByHandle_products_edges {
