@@ -17,6 +17,11 @@ export interface Collections_collections_edges_node {
    * The description of the collection, complete with HTML formatting.
    */
   descriptionHtml: any;
+  /**
+   * A human-friendly unique string for the collection automatically generated from its title.
+   * Limit of 255 characters.
+   */
+  handle: string;
 }
 
 export interface Collections_collections_edges {
