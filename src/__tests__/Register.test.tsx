@@ -4,7 +4,7 @@ import AutoMockedProvider from "src/utils/testing/AutoMockedProvider";
 import Register from "src/pages/account/register";
 import userEvent from "@testing-library/user-event";
 import Router from "next/router";
-import { CreateAccount_customerCreate } from "src/components/__generated__/CreateAccount";
+import { CreateAccount_customerCreate } from "src/utils/mutations/__generated__/CreateAccount";
 import { CustomerErrorCode } from "__generated__/globalTypes";
 
 jest.mock("next/router");

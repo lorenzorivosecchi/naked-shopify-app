@@ -29,7 +29,7 @@ const Header: React.FC<{}> = () => {
           <button onClick={() => logout()}>Logout</button>
         </>
       )}
-      <Breadcrumbs />
+      {/* <Breadcrumbs /> */}
     </header>
   );
 };

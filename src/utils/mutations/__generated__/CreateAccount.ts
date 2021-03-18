@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CustomerErrorCode } from "./../../../__generated__/globalTypes";
+import { CustomerErrorCode } from "./../../../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: CreateAccount
@@ -57,12 +57,32 @@ export interface CreateAccount_customerAccessTokenCreate_customerAccessToken {
   expiresAt: any;
 }
 
+export interface CreateAccount_customerAccessTokenCreate_customerUserErrors {
+  __typename: "CustomerUserError";
+  /**
+   * Error code to uniquely identify the error.
+   */
+  code: CustomerErrorCode | null;
+  /**
+   * Path to the input field which caused the error.
+   */
+  field: string[] | null;
+  /**
+   * The error message.
+   */
+  message: string;
+}
+
 export interface CreateAccount_customerAccessTokenCreate {
   __typename: "CustomerAccessTokenCreatePayload";
   /**
    * The newly created customer access token object.
    */
   customerAccessToken: CreateAccount_customerAccessTokenCreate_customerAccessToken | null;
+  /**
+   * List of errors that occurred executing the mutation.
+   */
+  customerUserErrors: CreateAccount_customerAccessTokenCreate_customerUserErrors[];
 }
 
 export interface CreateAccount {

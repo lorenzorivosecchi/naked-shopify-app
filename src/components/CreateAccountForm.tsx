@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 import { Form, Input, Error } from "src/lib/easy-form";
 import Submit from "src/lib/easy-form/Submit";
-import useAuthContext from "src/utils/hooks/useAuthContext";
-import { CreateAccount } from "./__generated__/CreateAccount";
+import useCreateAccount from "src/utils/hooks/useCreateAccount";
 
 export interface CreateAccountFormValues {
   email: string;
@@ -10,37 +8,27 @@ export interface CreateAccountFormValues {
   passwordConfirmation: string;
 }
 
-// An array of mutation errors.
-// I Don't know why a CustomerUserError type isn't exported from schema by apollo CLI.
-type CustomerUserErrors = CreateAccount["customerCreate"]["customerUserErrors"];
-
 interface Props {
   onSuccess: () => void;
 }
 
 const CreateAccountForm: React.FC<Props> = ({ onSuccess }) => {
-  const { createAccount } = useAuthContext();
-
-  const [serverErrors, setServerErrors] = useState<CustomerUserErrors>();
+  const [createAccount, { data }] = useCreateAccount();
 
   const handleSubmit = async (values: CreateAccountFormValues) => {
-    const result = await createAccount({
+    await createAccount({
       variables: {
         email: values.email,
         password: values.password,
       },
     });
-
-    const customerUserErrors = result?.data?.customerCreate?.customerUserErrors;
-
-    // Check if there were user errors in the request.
-    if (customerUserErrors?.length > 0) {
-      // Save list of server error messages into the component state.
-      setServerErrors(customerUserErrors);
-    } else {
-      onSuccess();
-    }
+    onSuccess();
   };
+
+  const serverErrors = [
+    ...(data?.customerAccessTokenCreate?.customerUserErrors || []),
+    ...(data?.customerCreate?.customerUserErrors || []),
+  ];
 
   return (
     <Form<CreateAccountFormValues>
@@ -83,7 +71,7 @@ const CreateAccountForm: React.FC<Props> = ({ onSuccess }) => {
           )}
           <Submit />
           {/* Log a list of server errors if there are any */}
-          {serverErrors?.map((error, index) => (
+          {serverErrors.map((error, index) => (
             <Error key={index}>
               [{error.code}] {error.message}
             </Error>

@@ -1,6 +1,6 @@
 // https://blog.andrewbran.ch/polymorphic-react-components/#an-alternative-approach
 
-import React, { ForwardedRef, forwardRef, Ref } from "react";
+import { ForwardedRef, forwardRef, Ref } from "react";
 import { ReactNode } from "react";
 
 interface FieldInjectedProps {

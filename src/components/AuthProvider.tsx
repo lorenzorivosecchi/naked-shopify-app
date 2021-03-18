@@ -1,58 +1,19 @@
 import { ApolloCache, gql, useMutation } from "@apollo/client";
 import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "src/utils/context/auth";
-import { Login, LoginVariables } from "./__generated__/Login";
-import { Logout, LogoutVariables } from "./__generated__/Logout";
+import { LOGIN } from "src/utils/mutations/Login";
+import { LOGOUT } from "src/utils/mutations/Logout";
+import { Login, LoginVariables } from "src/utils/mutations/__generated__/Login";
+import {
+  Logout,
+  LogoutVariables,
+} from "src/utils/mutations/__generated__/Logout";
 import {
   CreateAccount,
   CreateAccountVariables,
-} from "./__generated__/CreateAccount";
+} from "src/utils/mutations/__generated__/CreateAccount";
 import { localStorageKeys } from "src/utils/constants";
-
-const LOGIN = gql`
-  mutation Login($email: String!, $password: String!) {
-    customerAccessTokenCreate(input: { email: $email, password: $password }) {
-      customerAccessToken {
-        accessToken
-        expiresAt
-      }
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`;
-
-const LOGOUT = gql`
-  mutation Logout($accessToken: String!) {
-    customerAccessTokenDelete(customerAccessToken: $accessToken) {
-      deletedAccessToken
-    }
-  }
-`;
-
-const CREATE_ACCOUNT = gql`
-  mutation CreateAccount($email: String!, $password: String!) {
-    customerCreate(input: { email: $email, password: $password }) {
-      customer {
-        id
-      }
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-    customerAccessTokenCreate(input: { email: $email, password: $password }) {
-      customerAccessToken {
-        accessToken
-        expiresAt
-      }
-    }
-  }
-`;
+import { CREATE_ACCOUNT } from "src/utils/mutations/CreateAccount";
 
 interface Props {
   children: ReactNode;
