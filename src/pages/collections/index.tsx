@@ -7,8 +7,16 @@ const Collections: NextPage<{}> = () => {
   if (loading) {
     return null;
   }
-
-  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  return (
+    <>
+      {data?.collections?.edges?.map(({ cursor, node }) => (
+        <div key={cursor}>
+          <h3>{node.title}</h3>
+          <div dangerouslySetInnerHTML={{ __html: node.descriptionHtml }} />
+        </div>
+      ))}
+    </>
+  );
 };
 
 export default Collections;
