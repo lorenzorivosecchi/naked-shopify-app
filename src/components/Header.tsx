@@ -1,6 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import useAuthContext from "src/utils/hooks/useAuthContext";
 import useCustomer from "src/utils/hooks/useCustomer";
+import Breadcrumbs from "./Breadcrumbs";
 import { ShopName } from "./__generated__/ShopName";
 
 const SHOP_NAME = gql`
@@ -28,6 +29,7 @@ const Header: React.FC<{}> = () => {
           <button onClick={() => logout()}>Logout</button>
         </>
       )}
+      <Breadcrumbs />
     </header>
   );
 };
