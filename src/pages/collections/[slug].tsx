@@ -5,10 +5,8 @@ import useCollection from "src/utils/hooks/useCollection";
 const Collection: NextPage<{}> = () => {
   const { query } = useRouter();
 
-  console.log(query);
-
   const { data, loading, error } = useCollection({
-    variables: { handle: String(query.slug) },
+    variables: { handle: String(query.slug), first: 5 },
   });
 
   if (loading) {

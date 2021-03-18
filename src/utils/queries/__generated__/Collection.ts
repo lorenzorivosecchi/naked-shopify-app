@@ -65,4 +65,8 @@ export interface Collection {
 
 export interface CollectionVariables {
   handle: string;
+  first?: number | null;
+  after?: string | null;
+  last?: number | null;
+  before?: string | null;
 }
