@@ -1,5 +1,4 @@
 import { render, waitFor } from "@testing-library/react";
-import AuthProvider from "src/components/AuthProvider";
 import AutoMockedProvider from "src/utils/testing/AutoMockedProvider";
 import Login from "src/pages/account/login";
 import userEvent from "@testing-library/user-event";
@@ -27,9 +26,7 @@ describe("Login", () => {
 
     const { getByLabelText, getByRole } = render(
       <AutoMockedProvider resolvers={resolvers}>
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
+        <Login />
       </AutoMockedProvider>
     );
 
@@ -67,9 +64,7 @@ describe("Login", () => {
 
     const { getByLabelText, getByRole, getByText } = render(
       <AutoMockedProvider resolvers={resolvers}>
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
+        <Login />
       </AutoMockedProvider>
     );
 

@@ -1,7 +1,6 @@
 import Header from "../Header";
 import { render, waitFor } from "@testing-library/react";
 import AutoMockedProvider from "../../utils/testing/AutoMockedProvider";
-import AuthProvider from "../AuthProvider";
 import { localStorageKeys } from "src/utils/constants";
 import { getFutureDate } from "src/utils/testing/dates";
 
@@ -35,9 +34,7 @@ describe("Header", () => {
 
     const { getByRole } = render(
       <AutoMockedProvider>
-        <AuthProvider>
-          <Header />
-        </AuthProvider>
+        <Header />
       </AutoMockedProvider>
     );
 

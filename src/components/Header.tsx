@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
-import useAuthContext from "src/utils/hooks/useAuthContext";
 import useCustomer from "src/utils/hooks/useCustomer";
-import Breadcrumbs from "./Breadcrumbs";
+import useLogout from "src/utils/hooks/useLogout";
 import { ShopName } from "./__generated__/ShopName";
 
 const SHOP_NAME = gql`
@@ -14,7 +13,7 @@ const SHOP_NAME = gql`
 
 const Header: React.FC<{}> = () => {
   const { data: shopNameQueryData } = useQuery<ShopName>(SHOP_NAME);
-  const { logout } = useAuthContext();
+  const [logout] = useLogout();
   const customer = useCustomer();
 
   const shopName = shopNameQueryData?.shop?.name;

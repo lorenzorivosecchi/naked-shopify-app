@@ -1,5 +1,4 @@
 import { render, waitFor } from "@testing-library/react";
-import AuthProvider from "src/components/AuthProvider";
 import AutoMockedProvider from "src/utils/testing/AutoMockedProvider";
 import Register from "src/pages/account/register";
 import userEvent from "@testing-library/user-event";
@@ -26,9 +25,7 @@ describe("Register", () => {
 
     const { getByLabelText, getByRole } = render(
       <AutoMockedProvider resolvers={resolvers}>
-        <AuthProvider>
-          <Register />
-        </AuthProvider>
+        <Register />
       </AutoMockedProvider>
     );
 
@@ -71,9 +68,7 @@ describe("Register", () => {
 
     const { getByLabelText, getByRole, getByText } = render(
       <AutoMockedProvider resolvers={resolvers}>
-        <AuthProvider>
-          <Register />
-        </AuthProvider>
+        <Register />
       </AutoMockedProvider>
     );
 
