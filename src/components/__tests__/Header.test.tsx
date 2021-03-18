@@ -26,12 +26,12 @@ describe("Header", () => {
   });
 
   it("displays logout button when user is logged in", async () => {
-    const store = {
+    const mockedLocalStorage = {
       [localStorageKeys.CUSTOMER_TOKEN]: "hello-world",
       [localStorageKeys.CUSTOMER_TOKEN_EXPIRES_AT]: getFutureDate().toISOString(),
     };
 
-    Storage.prototype.getItem = jest.fn((key) => store[key]);
+    Storage.prototype.getItem = jest.fn((key) => mockedLocalStorage[key]);
 
     const { getByRole } = render(
       <AutoMockedProvider>
